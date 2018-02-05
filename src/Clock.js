@@ -1,11 +1,34 @@
-import React, { Component } from 'react';
-import './Clock.css';
+import React, { Component } from "react";
+import ShowTime from "./ShowTime";
+import ShowDate from "./ShowDate";
 
 class Clock extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { date: new Date() };
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(() => this.tick(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
   render() {
     return (
-      <h1>This is a clock!</h1>
-    );
+      <div>
+        <ShowTime date={this.state.date}></ShowTime>
+        <ShowDate date={this.state.date}></ShowDate>
+      </div>
+    )
   }
 }
 

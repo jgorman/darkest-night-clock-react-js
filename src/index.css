@@ -1,5 +1,36 @@
 body {
   margin: 0;
+  background-color: black;
+  color: #eee;
   padding: 0;
   font-family: sans-serif;
+}
+
+div.header {
+  background-color: #111;
+  padding: 0;
+}
+
+div.header a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 20px;
+  display: inline-block;
+  margin: 0;
+}
+
+a.active {
+  background-color: #0099ff;
+}
+
+/* https://drafts.csswg.org/css-values/#viewport-relative-lengths */
+div.clock-time {
+  color: #0000ff;
+  font-size: 25vw;
+}
+
+div.clock-date {
+  color: blue;
+  font-size: 10vw;
 }

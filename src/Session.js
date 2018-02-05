@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Session.css';
 
 class Session extends Component {
   render() {
