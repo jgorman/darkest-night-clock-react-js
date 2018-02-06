@@ -13,7 +13,7 @@ class Clock extends Component {
       date: new Date(),
       brightness: 1.0,
       alert: '',
-      color: [255, 255, 255]
+      color: [0, 0, 255]
     };
     this.brighterClick = this.brighterClick.bind(this);
     this.dimmerClick = this.dimmerClick.bind(this);
@@ -59,8 +59,8 @@ class Clock extends Component {
     const color = formatColor(this.state.color, this.state.brightness);
     return (
       <div>
-        <ShowTime color={color} date={this.state.date}></ShowTime>
-        <ShowDate color={color} date={this.state.date}></ShowDate>
+        <ShowTime date={this.state.date} color={color}></ShowTime>
+        <ShowDate date={this.state.date} color={color}></ShowDate>
         <div>
           <img onClick={this.brighterClick} src={plusCircle} className="controls" alt="Brighter" />
           <img onClick={this.dimmerClick} src={minusCircle} className="controls" alt="Dimmer" />
