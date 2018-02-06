@@ -4,7 +4,7 @@ import ShowDate from "./ShowDate";
 import Alert from "./Alert";
 import plusCircle from "./plus-circle.svg";
 import minusCircle from "./minus-circle.svg";
-import {zeropad, formatColor} from "./utils";
+import {formatColor} from "./utils";
 
 class Clock extends Component {
   constructor(props) {
@@ -59,8 +59,8 @@ class Clock extends Component {
     const color = formatColor(this.state.color, this.state.brightness);
     return (
       <div>
-        <ShowTime date={this.state.date}></ShowTime>
-        <ShowDate date={this.state.date}></ShowDate>
+        <ShowTime color={color} date={this.state.date}></ShowTime>
+        <ShowDate color={color} date={this.state.date}></ShowDate>
         <div>
           <img onClick={this.brighterClick} src={plusCircle} className="controls" alt="Brighter" />
           <img onClick={this.dimmerClick} src={minusCircle} className="controls" alt="Dimmer" />
