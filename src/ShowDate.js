@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {zeropad, formatColor} from "./utils";
 
 class ShowDate extends Component {
   constructor(props) {
@@ -6,18 +7,13 @@ class ShowDate extends Component {
     this.state = { date: new Date() };
   }
 
-  formatNumber(num, len) {
-    const str = num.toString();
-    return str.padStart(len, "0");
-  }
-
   formatDate() {
     const date = this.state.date;
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    const day2 = this.formatNumber(day, 2);
-    const month2 = this.formatNumber(month, 2);
+    const day2 = zeropad(day, 2);
+    const month2 = zeropad(month, 2);
     return `${year}-${month2}-${day2}`;
   }
 
