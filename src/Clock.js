@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ShowTime from "./ShowTime";
 import ShowDate from "./ShowDate";
+import Colors from "./Colors";
 import Alert from "./Alert";
 import plusCircle from "./plus-circle.svg";
 import minusCircle from "./minus-circle.svg";
@@ -17,6 +18,7 @@ class Clock extends Component {
     };
     this.brighterClick = this.brighterClick.bind(this);
     this.dimmerClick = this.dimmerClick.bind(this);
+    this.colorClick = this.colorClick.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +57,12 @@ class Clock extends Component {
     });
   }
 
+  colorClick(newColor) {
+    this.setState(prevState => {
+      return { color: newColor };
+    });
+  }
+
   render() {
     const color = formatColor(this.state.color, this.state.brightness);
     return (
@@ -64,6 +72,7 @@ class Clock extends Component {
         <div>
           <img onClick={this.brighterClick} src={plusCircle} className="controls" alt="Brighter" />
           <img onClick={this.dimmerClick} src={minusCircle} className="controls" alt="Dimmer" />
+          <Colors click={this.colorClick}></Colors>
           <Alert>{color}</Alert>
         </div>
       </div>
