@@ -26,12 +26,10 @@ a.active {
 
 /* https://drafts.csswg.org/css-values/#viewport-relative-lengths */
 div.clock-time {
-  color: #0000ff;
-  font-size: 25vw;
+  text-align: center;
 }
 
 div.clock-date {
-  color: blue;
   font-size: 10vw;
 }
 
