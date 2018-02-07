@@ -4,12 +4,13 @@
   height="24"
   viewBox="0 0 24 24"
   fill="none"
-  stroke-width="8"
+  stroke="grey"
+  stroke-width="2"
   stroke-linecap="round"
   stroke-linejoin="round"
-  class="feather feather-plus-colors">
-
-  <line stroke="#aa0000"    x1="4"  y1="4" x2="4"  y2="20"></line>
-  <line stroke="#00aa00" x1="12" y1="4" x2="12" y2="20"></line>
-  <line stroke="#0000ff"  x1="20" y1="4" x2="20" y2="20"></line>
+  class="feather feather-plus-circle">
+  <circle stroke="grey" cx="12" cy="12" r="10"></circle>
+  <circle stroke="#ff0000" cx="12" cy="8" r="1"></circle>
+  <circle stroke="#00ff00" cx="8" cy="14" r="1"></circle>
+  <circle stroke="#ffff00" cx="16" cy="14" r="1"></circle>
 </svg>
