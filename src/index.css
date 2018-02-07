@@ -24,16 +24,21 @@ a.active {
   background-color: #0099ff;
 }
 
-/* https://drafts.csswg.org/css-values/#viewport-relative-lengths */
+div.centered {
+  text-align: center;
+}
+
 div.clock-time {
   text-align: center;
 }
 
 div.clock-date {
+  text-align: center;
   font-size: 10vw;
 }
 
 div.colors {
+  text-align: center;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   width: 150px;

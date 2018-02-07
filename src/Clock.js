@@ -6,6 +6,7 @@ import plusCircle from "./plus-circle.svg";
 import minusCircle from "./minus-circle.svg";
 import colors from "./colors.svg";
 import seconds from "./seconds.svg";
+import showDate from "./show-date.svg";
 import {formatColor} from "./utils";
 
 class Clock extends Component {
@@ -17,12 +18,14 @@ class Clock extends Component {
       color: [0, 0, 255],
       showColors: false,
       showSeconds: true,
+      showDate: false,
     };
     this.brighterClick = this.brighterClick.bind(this);
     this.dimmerClick = this.dimmerClick.bind(this);
     this.setColorClick = this.setColorClick.bind(this);
     this.showColorClick = this.showColorClick.bind(this);
     this.showSecondsClick = this.showSecondsClick.bind(this);
+    this.showDateClick = this.showDateClick.bind(this);
   }
 
   componentDidMount() {
@@ -79,18 +82,25 @@ class Clock extends Component {
     });
   }
 
+  showDateClick() {
+    this.setState(prevState => {
+      return { showDate: !prevState.showDate };
+    });
+  }
+
   render() {
     const color = formatColor(this.state.color, this.state.brightness);
     return (
       <div>
         <ShowTime date={this.state.date} showSeconds={this.state.showSeconds} color={color}></ShowTime>
-        <ShowDate date={this.state.date} color={color}></ShowDate>
-        <div>
+        <ShowDate date={this.state.date} show={this.state.showDate} color={color}></ShowDate>
+        <div className="centered">
           <img onClick={this.brighterClick} src={plusCircle} alt="Brighter" />
           <img onClick={this.dimmerClick} src={minusCircle} alt="Dimmer" />
           <img onClick={this.showColorClick} src={colors} alt="Select color" />
           <img onClick={this.showSecondsClick} src={seconds} alt="Show seconds" />
-          <Colors show={this.state.showColors} click={this.setColorClick}></Colors>
+          <img onClick={this.showDateClick} src={showDate} alt="Show date" />
+          <Colors click={this.setColorClick} show={this.state.showColors}></Colors>
         </div>
       </div>
     )
