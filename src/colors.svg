@@ -9,7 +9,8 @@
   stroke-linecap="round"
   stroke-linejoin="round"
   class="feather feather-plus-circle">
-  <circle stroke="grey" cx="12" cy="12" r="10"></circle>
+
+  <circle cx="12" cy="12" r="10"></circle>
   <circle stroke="#ff0000" cx="12" cy="8" r="1"></circle>
   <circle stroke="#00ff00" cx="8" cy="14" r="1"></circle>
   <circle stroke="#ffff00" cx="16" cy="14" r="1"></circle>
