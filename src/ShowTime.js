@@ -3,8 +3,7 @@ import {zeropad} from "./utils";
 
 class ShowTime extends Component {
 
-  formatTime() {
-    const date = this.props.date;
+  formatTime(date) {
     const hour = date.getHours();
     const minute = date.getMinutes();
     const second = date.getSeconds();
@@ -17,7 +16,7 @@ class ShowTime extends Component {
   render() {
     return (
       <div className="clock-time" style={{ color: this.props.color }}>
-        {this.formatTime()}
+        {this.formatTime(this.props.date)}
       </div>
     );
   }

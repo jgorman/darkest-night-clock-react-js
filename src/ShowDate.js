@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { zeropad } from "./utils";
 
 class ShowDate extends Component {
-  formatDate() {
-    const date = this.props.date;
+  formatDate(date) {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
@@ -15,7 +14,7 @@ class ShowDate extends Component {
   render() {
     return (
       <div className="clock-date" style={{ color: this.props.color }}>
-        {this.formatDate()}
+        {this.formatDate(this.props.date)}
       </div>
     );
   }
