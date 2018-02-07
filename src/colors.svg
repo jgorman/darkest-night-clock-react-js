@@ -7,9 +7,9 @@
   stroke-width="8"
   stroke-linecap="round"
   stroke-linejoin="round"
-  class="feather feather-plus-circle">
+  class="feather feather-plus-colors">
 
-  <line stroke="#ff0000"    x1="4"  y1="4" x2="4"  y2="20"></line>
-  <line stroke="#00ff00" x1="12" y1="4" x2="12" y2="20"></line>
+  <line stroke="#aa0000"    x1="4"  y1="4" x2="4"  y2="20"></line>
+  <line stroke="#00aa00" x1="12" y1="4" x2="12" y2="20"></line>
   <line stroke="#0000ff"  x1="20" y1="4" x2="20" y2="20"></line>
 </svg>

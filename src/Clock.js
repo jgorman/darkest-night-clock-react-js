@@ -15,11 +15,13 @@ class Clock extends Component {
       date: new Date(),
       brightness: 1.0,
       alert: '',
-      color: [0, 0, 255]
+      color: [0, 0, 255],
+      showColors: false,
     };
     this.brighterClick = this.brighterClick.bind(this);
     this.dimmerClick = this.dimmerClick.bind(this);
-    this.colorClick = this.colorClick.bind(this);
+    this.setColorClick = this.setColorClick.bind(this);
+    this.showColorClick = this.showColorClick.bind(this);
   }
 
   componentDidMount() {
@@ -50,17 +52,24 @@ class Clock extends Component {
   dimmerClick() {
     this.setState(prevState => {
       let newBrightness = prevState.brightness * 0.66;
-      if (newBrightness < 0.01) {
+      if (newBrightness < 0.05) {
         // Alert the user that this is minimum brightness?
-        newBrightness = 0.01;
+        newBrightness = 0.05;
       }
       return { brightness: newBrightness };
     });
   }
 
-  colorClick(newColor) {
+  showColorClick() {
     this.setState(prevState => {
-      return { color: newColor };
+      // alert(prevState.showColors);
+      return { showColors: !prevState.showColors };
+    });
+  }
+
+  setColorClick(newColor) {
+    this.setState(prevState => {
+      return { color: newColor, showColors: false };
     });
   }
 
@@ -73,8 +82,8 @@ class Clock extends Component {
         <div>
           <img onClick={this.brighterClick} src={plusCircle} className="controls" alt="Brighter" />
           <img onClick={this.dimmerClick} src={minusCircle} className="controls" alt="Dimmer" />
-          <img onClick={this.dimmerClick} src={colors} className="controls" alt="Colors" />
-          <Colors click={this.colorClick}></Colors>
+          <img onClick={this.showColorClick} src={colors} className="controls" alt="Colors" />
+          <Colors show={this.state.showColors} click={this.setColorClick}></Colors>
           <Alert>{color}</Alert>
         </div>
       </div>
