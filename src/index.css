@@ -34,3 +34,10 @@ div.clock-date {
   color: blue;
   font-size: 10vw;
 }
+
+div.colors {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 150px;
+  height: 100px;
+}

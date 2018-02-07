@@ -1,0 +1,15 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke-width="8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class="feather feather-plus-circle">
+
+  <line stroke="#ff0000"    x1="4"  y1="4" x2="4"  y2="20"></line>
+  <line stroke="#00ff00" x1="12" y1="4" x2="12" y2="20"></line>
+  <line stroke="#0000ff"  x1="20" y1="4" x2="20" y2="20"></line>
+</svg>

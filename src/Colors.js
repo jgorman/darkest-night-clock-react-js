@@ -12,9 +12,10 @@ class Color extends Component {
   //   );
   // }
 
+    const color = formatColor(this.props.color);
     return (
-      <div onClick={() => { this.props.click(this.props.color) } }
-           style={{ color: formatColor(this.props.color) }}>
+      <div className="color" onClick={() => { this.props.click(this.props.color) } }
+           style={{ background: color }}>
         {this.props.children}
       </div>
     );
@@ -25,14 +26,13 @@ class Color extends Component {
 class Colors extends Component {
   render() {
     return (
-      <div>
-        <Color click={this.props.click} color={[  0,   0, 255]}>Blue</Color>
-        <Color click={this.props.click} color={[  0, 255,   0]}>Green</Color>
-        <Color click={this.props.click} color={[  0, 255, 255]}>Yellow</Color>
-        <Color click={this.props.click} color={[255,   0,   0]}>White</Color>
-        <Color click={this.props.click} color={[255,   0, 255]}>Orange</Color>
-        <Color click={this.props.click} color={[255, 255,   0]}>Red</Color>
-        <Color click={this.props.click} color={[255, 255, 255]}>Purple</Color>
+      <div className="colors">
+        <Color click={this.props.click} color={[0xff, 0x00, 0x00]}></Color>
+        <Color click={this.props.click} color={[0x00, 0xff, 0x00]}></Color>
+        <Color click={this.props.click} color={[0x00, 0x00, 0xff]}></Color>
+        <Color click={this.props.click} color={[0xff, 0x00, 0xff]}></Color>
+        <Color click={this.props.click} color={[0xff, 0xff, 0x00]}></Color>
+        <Color click={this.props.click} color={[0xff, 0xff, 0xff]}></Color>
       </div>
     );
   }

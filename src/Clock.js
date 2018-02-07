@@ -5,6 +5,7 @@ import Colors from "./Colors";
 import Alert from "./Alert";
 import plusCircle from "./plus-circle.svg";
 import minusCircle from "./minus-circle.svg";
+import colors from "./colors.svg";
 import {formatColor} from "./utils";
 
 class Clock extends Component {
@@ -72,6 +73,7 @@ class Clock extends Component {
         <div>
           <img onClick={this.brighterClick} src={plusCircle} className="controls" alt="Brighter" />
           <img onClick={this.dimmerClick} src={minusCircle} className="controls" alt="Dimmer" />
+          <img onClick={this.dimmerClick} src={colors} className="controls" alt="Colors" />
           <Colors click={this.colorClick}></Colors>
           <Alert>{color}</Alert>
         </div>
