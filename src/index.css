@@ -29,16 +29,19 @@ div.controls {
 }
 
 div.controls img {
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
+  margin: 1px;
 }
 
 div.clock-time {
   text-align: center;
+  line-height: 1.0;
 }
 
 div.clock-date {
   text-align: center;
+  line-height: 1.0;
   font-size: 10vw;
 }
 
