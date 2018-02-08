@@ -47,8 +47,10 @@ div.clock-date {
 
 div.colors {
   text-align: center;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  width: 150px;
-  height: 100px;
+}
+
+div.color {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
 }

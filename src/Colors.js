@@ -5,7 +5,8 @@ class Color extends Component {
   render() {
     const color = formatColor(this.props.color);
     return (
-      <div onClick={() => { this.props.click(this.props.color) } }
+      <div className="color"
+           onClick={() => { this.props.click(this.props.color) } }
            style={{ background: color }}></div>
     );
   }

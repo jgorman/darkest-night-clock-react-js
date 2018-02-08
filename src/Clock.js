@@ -98,6 +98,7 @@ class Clock extends Component {
         <ShowTime date={this.state.date} showSeconds={this.state.showSeconds} color={color}></ShowTime>
         <ShowDate date={this.state.date} show={this.state.showDate} color={color}></ShowDate>
         <div className="controls">
+          <Colors click={this.setColorClick} show={this.state.showColors}></Colors>
           <img onClick={this.brighterClick} src={plusCircle} alt="Brighter" />
           <img onClick={this.dimmerClick} src={minusCircle} alt="Dimmer" />
           <img onClick={this.showColorClick} src={colors} alt="Select color" />
@@ -106,7 +107,6 @@ class Clock extends Component {
           <Link to="/"><img src={home} alt="Home" /></Link>
           <Link to="/timer"><img src={gong} alt="Timer" /></Link>
         </div>
-        <Colors click={this.setColorClick} show={this.state.showColors}></Colors>
       </div>
     )
   }
