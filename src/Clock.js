@@ -7,6 +7,7 @@ import minusCircle from "./minus-circle.svg";
 import colors from "./colors.svg";
 import seconds from "./seconds.svg";
 import showDate from "./show-date.svg";
+import home from "./home.svg";
 import {formatColor} from "./utils";
 
 class Clock extends Component {
@@ -17,7 +18,7 @@ class Clock extends Component {
       brightness: 1.0,
       color: [0, 0, 255],
       showColors: false,
-      showSeconds: true,
+      showSeconds: false,
       showDate: false,
     };
     this.brighterClick = this.brighterClick.bind(this);
@@ -94,14 +95,15 @@ class Clock extends Component {
       <div>
         <ShowTime date={this.state.date} showSeconds={this.state.showSeconds} color={color}></ShowTime>
         <ShowDate date={this.state.date} show={this.state.showDate} color={color}></ShowDate>
-        <div className="centered">
+        <div className="controls">
           <img onClick={this.brighterClick} src={plusCircle} alt="Brighter" />
           <img onClick={this.dimmerClick} src={minusCircle} alt="Dimmer" />
           <img onClick={this.showColorClick} src={colors} alt="Select color" />
           <img onClick={this.showSecondsClick} src={seconds} alt="Show seconds" />
           <img onClick={this.showDateClick} src={showDate} alt="Show date" />
-          <Colors click={this.setColorClick} show={this.state.showColors}></Colors>
+          <img onClick={this.showDateClick} src={home} alt="Home" />
         </div>
+        <Colors click={this.setColorClick} show={this.state.showColors}></Colors>
       </div>
     )
   }

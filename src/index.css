@@ -24,8 +24,13 @@ a.active {
   background-color: #0099ff;
 }
 
-div.centered {
+div.controls {
   text-align: center;
+}
+
+div.controls img {
+  height: 40px;
+  width: 40px;
 }
 
 div.clock-time {
