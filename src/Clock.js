@@ -10,7 +10,7 @@ import seconds from "./seconds.svg";
 import showDate from "./show-date.svg";
 import gong from "./gong.svg";
 import home from "./home.svg";
-import {formatColor} from "./utils";
+import { formatColor } from "./utils";
 
 class Clock extends Component {
   constructor(props) {
@@ -19,14 +19,16 @@ class Clock extends Component {
       date: new Date(),
       brightness: 1.0,
       color: [0, 0, 255],
+      showControls: true,
       showColors: false,
       showSeconds: false,
-      showDate: false,
+      showDate: false
     };
     this.brighterClick = this.brighterClick.bind(this);
     this.dimmerClick = this.dimmerClick.bind(this);
-    this.setColorClick = this.setColorClick.bind(this);
+    this.showControlsClick = this.showControlsClick.bind(this);
     this.showColorClick = this.showColorClick.bind(this);
+    this.setColorClick = this.setColorClick.bind(this);
     this.showSecondsClick = this.showSecondsClick.bind(this);
     this.showDateClick = this.showDateClick.bind(this);
   }
@@ -67,6 +69,12 @@ class Clock extends Component {
     });
   }
 
+  showControlsClick() {
+    this.setState(prevState => {
+      return { showControls: !prevState.showControls };
+    });
+  }
+
   showColorClick() {
     this.setState(prevState => {
       return { showColors: !prevState.showColors };
@@ -93,22 +101,46 @@ class Clock extends Component {
 
   render() {
     const color = formatColor(this.state.color, this.state.brightness);
-    return (
-      <div>
-        <ShowTime date={this.state.date} showSeconds={this.state.showSeconds} color={color}></ShowTime>
-        <ShowDate date={this.state.date} show={this.state.showDate} color={color}></ShowDate>
+    let controls = "";
+    if (this.state.showControls) {
+      controls = (
         <div className="controls">
-          <Colors click={this.setColorClick} show={this.state.showColors}></Colors>
+          <Colors click={this.setColorClick} show={this.state.showColors} />
           <img onClick={this.brighterClick} src={plusCircle} alt="Brighter" />
           <img onClick={this.dimmerClick} src={minusCircle} alt="Dimmer" />
           <img onClick={this.showColorClick} src={colors} alt="Select color" />
-          <img onClick={this.showSecondsClick} src={seconds} alt="Show seconds" />
+          <img
+            onClick={this.showSecondsClick}
+            src={seconds}
+            alt="Show seconds"
+          />
           <img onClick={this.showDateClick} src={showDate} alt="Show date" />
-          <Link to="/"><img src={home} alt="Home" /></Link>
-          <Link to="/timer"><img src={gong} alt="Timer" /></Link>
+          <Link to="/">
+            <img src={home} alt="Home" />
+          </Link>
+          <Link to="/timer">
+            <img src={gong} alt="Timer" />
+          </Link>
         </div>
+      );
+    }
+
+    return (
+      <div>
+        <ShowTime
+          date={this.state.date}
+          showSeconds={this.state.showSeconds}
+          color={color}
+          click={this.showControlsClick}
+        />
+        <ShowDate
+          date={this.state.date}
+          show={this.state.showDate}
+          color={color}
+        />
+        {controls}
       </div>
-    )
+    );
   }
 }
 
