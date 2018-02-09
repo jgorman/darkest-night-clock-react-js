@@ -12,7 +12,6 @@ class ShowDate extends Component {
   }
 
   render() {
-    if (!this.props.show) { return null; }
     return (
       <div className="clock-date" style={{ color: this.props.color }}>
         {this.formatDate(this.props.date)}

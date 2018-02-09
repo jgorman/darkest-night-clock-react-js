@@ -17,7 +17,6 @@ class ShowTime extends Component {
     return (
       <div
         className="clock-time"
-        onClick={this.props.click}
         style={{ color: this.props.color, fontSize: fontSize }}
       >
         {this.formatTime(this.props.date, this.props.showSeconds)}
