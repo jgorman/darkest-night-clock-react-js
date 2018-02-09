@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ShowTime from "./ShowTime";
 import ShowDate from "./ShowDate";
 import Colors from "./Colors";
-import { formatColor } from "./utils";
+import { formatColor, saveState, getOldState } from "./utils";
 import plusCircle from "./plus-circle.svg";
 import minusCircle from "./minus-circle.svg";
 import colors from "./colors.svg";
@@ -12,15 +12,53 @@ import showDate from "./show-date.svg";
 class Clock extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       date: new Date(),
       brightness: 1.0,
       color: [0, 0, 255],
-      showControls: true,
-      showColors: false,
       showSeconds: false,
-      showDate: false
+      showDate: false,
+      showControls: true,
+      showColors: false
     };
+    const old = getOldState();
+    if (old !== null) {
+      try {
+        if (typeof old.brightness === "number" && old.brightness >= 0.1) {
+          this.state.brightness = old.brightness;
+        }
+
+        // Check old color values!
+        let okay = true;
+        let lumins = 0;
+        for (let i = 0; i < 3; i++) {
+          let oc = old.color[i];
+          if (typeof oc === "number" && 0 <= oc && oc <= 255) {
+            lumins += oc;
+          } else {
+            okay = false;
+          }
+        }
+        if (okay && lumins > 100 && old.color.length === 3) {
+          this.state.color = old.color;
+        }
+
+        if (old.showControls === true || old.showControls === false) {
+          this.state.showControls = old.showControls;
+        }
+        if (old.showSeconds === true || old.showSeconds === false) {
+          this.state.showSeconds = old.showSeconds;
+        }
+        if (old.showDate === true || old.showDate === false) {
+          this.state.showDate = old.showDate;
+        }
+      } catch (err) {
+        console.error("Bad saved state:", err.message);
+      }
+    }
+
+    // Bind the event functions to this.
     this.brighterClick = this.brighterClick.bind(this);
     this.dimmerClick = this.dimmerClick.bind(this);
     this.showControlsClick = this.showControlsClick.bind(this);
@@ -42,6 +80,7 @@ class Clock extends Component {
     this.setState(prevState => {
       return { date: new Date() };
     });
+    saveState(this.state);
   }
 
   brighterClick() {
@@ -100,7 +139,6 @@ class Clock extends Component {
     const color = formatColor(this.state.color, this.state.brightness);
     return (
       <div>
-
         <div onClick={this.showControlsClick}>
           <ShowTime
             date={this.state.date}
