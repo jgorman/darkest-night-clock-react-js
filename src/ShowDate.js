@@ -13,7 +13,7 @@ class ShowDate extends Component {
 
   render() {
     return (
-      <div className="clock-date" style={{ color: this.props.color }}>
+      <div className="show-date" style={{ color: this.props.color }}>
         {this.formatDate(this.props.date)}
       </div>
     );

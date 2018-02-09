@@ -101,7 +101,7 @@ class Clock extends Component {
     return (
       <div>
 
-        <div className="content" onClick={this.showControlsClick}>
+        <div onClick={this.showControlsClick}>
           <ShowTime
             date={this.state.date}
             showSeconds={this.state.showSeconds}

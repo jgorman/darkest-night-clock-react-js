@@ -16,7 +16,7 @@ class ShowTime extends Component {
     const fontSize = this.props.showSeconds ? "25vw" : "38vw";
     return (
       <div
-        className="clock-time"
+        className="show-time"
         style={{ color: this.props.color, fontSize: fontSize }}
       >
         {this.formatTime(this.props.date, this.props.showSeconds)}
