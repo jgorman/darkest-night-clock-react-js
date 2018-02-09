@@ -1,16 +1,13 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import ShowTime from "./ShowTime";
 import ShowDate from "./ShowDate";
 import Colors from "./Colors";
+import { formatColor } from "./utils";
 import plusCircle from "./plus-circle.svg";
 import minusCircle from "./minus-circle.svg";
 import colors from "./colors.svg";
 import seconds from "./seconds.svg";
 import showDate from "./show-date.svg";
-import gong from "./gong.svg";
-import home from "./home.svg";
-import { formatColor } from "./utils";
 
 class Clock extends Component {
   constructor(props) {
@@ -115,12 +112,6 @@ class Clock extends Component {
             alt="Show seconds"
           />
           <img onClick={this.showDateClick} src={showDate} alt="Show date" />
-          <Link to="/">
-            <img src={home} alt="Home" />
-          </Link>
-          <Link to="/timer">
-            <img src={gong} alt="Timer" />
-          </Link>
         </div>
       );
     }
