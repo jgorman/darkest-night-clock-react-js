@@ -1,10 +1,10 @@
-// Takes [r, g, b] and returns ""#rrggbb" scaled by optional brightness.
-export function formatColor(color_a, brightness = 1.0) {
-  let color_s = "#";
-  color_a.forEach(n => {
-    color_s += Math.round(n * brightness)
-      .toString(16)
-      .padStart(2, "0");
-  });
-  return color_s;
-}
+export const formatColor = color => "#" + color.toString(16).padStart(6, "0");
+
+export const scaleColor = (color, brightness) => {
+  const color_a = [];
+  for (let i = 0; i < 3; i++) {
+    color_a.unshift(Math.round((color & 0xff) * brightness));
+    color >>= 8;
+  }
+  return color_a.reduce((acc, c) => (acc << 8) + c);
+};

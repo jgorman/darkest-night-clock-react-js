@@ -3,6 +3,7 @@
 const MIN_BRIGHTNESS = 0.05;
 const MAX_BRIGHTNESS = 1.0;
 const DIMMER_RATIO = 0.666;
+const DEFAULT_COLOR = 0x0000ff;
 
 // App startup state from defaults and local browser storage.
 function initialState() {
@@ -10,7 +11,7 @@ function initialState() {
   const state = {
     date: new Date(),
     brightness: 1.0,
-    color: [0, 0, 255],
+    color: DEFAULT_COLOR,
     showSeconds: false,
     showDate: false,
     showControls: true,
@@ -21,27 +22,18 @@ function initialState() {
   const old = getOldState();
   if (old !== null) {
     try {
+      const ob = old.brightness;
       if (
-        typeof old.brightness === "number" &&
-        old.brightness >= MIN_BRIGHTNESS &&
-        old.brightness <= MAX_BRIGHTNESS
+        typeof ob === "number" &&
+        ob >= MIN_BRIGHTNESS &&
+        ob <= MAX_BRIGHTNESS
       ) {
-        state.brightness = old.brightness;
+        state.brightness = ob;
       }
 
-      // Check old color values!
-      let okay = true;
-      let lumins = 0;
-      for (let i = 0; i < 3; i++) {
-        let oc = old.color[i];
-        if (typeof oc === "number" && 0 <= oc && oc <= 255) {
-          lumins += oc;
-        } else {
-          okay = false;
-        }
-      }
-      if (okay && lumins > 100 && old.color.length === 3) {
-        state.color = old.color;
+      const oc = old.color;
+      if (typeof oc === "number" && 1 <= oc && oc <= 0xffffff) {
+        state.color = oc;
       }
 
       if (old.showControls === true || old.showControls === false) {
@@ -81,7 +73,12 @@ export function reducer(state = initialState(), action) {
       if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
       return { ...state, brightness: new_brightness };
     case "SET_COLOR":
-      return { ...state, color: action.color, showColors: false };
+      return {
+        ...state,
+        color: action.color || DEFAULT_COLOR,
+        brightness: 1,
+        showColors: false
+      };
     case "SET_DATE":
       return { ...state, date: action.date };
 

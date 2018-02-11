@@ -18,12 +18,12 @@ const Colors = props => {
   const click = props.click;
   return (
     <div className="colors">
-      <Color click={click} color={[0xff, 0x00, 0x00]} />
-      <Color click={click} color={[0x00, 0xff, 0x00]} />
-      <Color click={click} color={[0x00, 0x00, 0xff]} />
-      <Color click={click} color={[0xff, 0x00, 0xff]} />
-      <Color click={click} color={[0xff, 0xff, 0x00]} />
-      <Color click={click} color={[0xff, 0xff, 0xff]} />
+      <Color click={click} color={0xff0000} />
+      <Color click={click} color={0x00ff00} />
+      <Color click={click} color={0x0000ff} />
+      <Color click={click} color={0xff00ff} />
+      <Color click={click} color={0xffff00} />
+      <Color click={click} color={0xffffff} />
     </div>
   );
 };

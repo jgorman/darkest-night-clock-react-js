@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { ShowTime, ShowDate } from "./ShowTime";
 import Colors from "./Colors";
-import { formatColor } from "./utils";
+import { formatColor, scaleColor } from "./utils";
 import { saveState } from "./appstate";
 
 import plusCircle from "./plus-circle.svg";
@@ -42,8 +42,8 @@ class Clock extends Component {
     this.props.dispatch({ type: "TOGGLE_COLORS" });
   };
 
-  setColorClick = newColor => {
-    this.props.dispatch({ type: "SET_COLOR", color: newColor });
+  setColorClick = color => {
+    this.props.dispatch({ type: "SET_COLOR", color: color });
   };
 
   showSecondsClick = () => {
@@ -56,7 +56,7 @@ class Clock extends Component {
 
   render() {
     const clock = this.props.clock;
-    const color = formatColor(clock.color, clock.brightness);
+    const color = formatColor(scaleColor(clock.color, clock.brightness));
     return (
       <div>
         <div onClick={this.showControlsClick}>
