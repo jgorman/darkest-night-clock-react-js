@@ -6,7 +6,7 @@ const DIMMER_RATIO = 0.666;
 const DEFAULT_COLOR = 0x0000ff;
 
 // App startup state from defaults and local browser storage.
-function initialState() {
+const initialState = () => {
   // App defaults.
   const state = {
     date: new Date(),
@@ -53,7 +53,7 @@ function initialState() {
   return state;
 }
 
-export function reducer(state = initialState(), action) {
+export const reducer = (state = initialState(), action) => {
   let new_brightness;
   switch (action.type) {
     case "TOGGLE_CONTROLS":
@@ -88,13 +88,13 @@ export function reducer(state = initialState(), action) {
 }
 
 // Save state in browser storage.
-export function saveState(state) {
+export const saveState = (state) => {
   const settings = JSON.stringify(state);
   localStorage.setItem("clock-settings", settings);
 }
 
 // Get state from browser storage.
-function getOldState() {
+const getOldState = () => {
   try {
     const settings = localStorage.getItem("clock-settings");
     return JSON.parse(settings);
@@ -103,3 +103,14 @@ function getOldState() {
     return null;
   }
 }
+
+export const formatColor = color => "#" + color.toString(16).padStart(6, "0");
+
+export const scaleColor = (color, brightness) => {
+  const color_a = [];
+  for (let i = 0; i < 3; i++) {
+    color_a.unshift(Math.round((color & 0xff) * brightness));
+    color >>= 8;
+  }
+  return color_a.reduce((acc, c) => (acc << 8) + c);
+};
