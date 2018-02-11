@@ -13,19 +13,3 @@ export function formatColor(color_a, brightness = 1.0) {
   });
   return color_s;
 }
-
-export function saveState(state) {
-  const settings = JSON.stringify(state);
-  localStorage.setItem('clock-settings', settings);
-}
-
-export function getOldState() {
-  try {
-    const settings = localStorage.getItem('clock-settings');
-    return JSON.parse(settings);
-  }
-  catch(err) {
-    console.error('getOldState:', err.message);
-    return null;
-  }
-}

@@ -1,8 +1,12 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+
 import ShowTime from "./ShowTime";
 import ShowDate from "./ShowDate";
 import Colors from "./Colors";
-import { formatColor, saveState, getOldState } from "./utils";
+import { formatColor } from "./utils";
+import { saveState } from "./appstate";
+
 import plusCircle from "./plus-circle.svg";
 import minusCircle from "./minus-circle.svg";
 import colors from "./colors.svg";
@@ -13,54 +17,8 @@ class Clock extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      date: new Date(),
-      brightness: 1.0,
-      color: [0, 0, 255],
-      showSeconds: false,
-      showDate: false,
-      showControls: true,
-      showColors: false
-    };
-
-    // Read any saved configuration values.
-    const old = getOldState();
-    if (old !== null) {
-      try {
-        if (typeof old.brightness === "number" && old.brightness >= 0.1) {
-          this.state.brightness = old.brightness;
-        }
-
-        // Check old color values!
-        let okay = true;
-        let lumins = 0;
-        for (let i = 0; i < 3; i++) {
-          let oc = old.color[i];
-          if (typeof oc === "number" && 0 <= oc && oc <= 255) {
-            lumins += oc;
-          } else {
-            okay = false;
-          }
-        }
-        if (okay && lumins > 100 && old.color.length === 3) {
-          this.state.color = old.color;
-        }
-
-        if (old.showControls === true || old.showControls === false) {
-          this.state.showControls = old.showControls;
-        }
-        if (old.showSeconds === true || old.showSeconds === false) {
-          this.state.showSeconds = old.showSeconds;
-        }
-        if (old.showDate === true || old.showDate === false) {
-          this.state.showDate = old.showDate;
-        }
-      } catch (err) {
-        console.error("Bad saved state:", err.message);
-      }
-    }
-
     // Bind the event functions to this.
+    // jj
     this.brighterClick = this.brighterClick.bind(this);
     this.dimmerClick = this.dimmerClick.bind(this);
     this.showControlsClick = this.showControlsClick.bind(this);
@@ -79,85 +37,61 @@ class Clock extends Component {
   }
 
   tick() {
-    this.setState(prevState => {
-      return { date: new Date() };
-    });
-    saveState(this.state);
+    this.props.dispatch({ type: "SET_DATE", date: new Date() });
+    // console.log("tick props:", this.props.clock);
+    saveState(this.props.clock);
   }
 
   brighterClick() {
-    this.setState(prevState => {
-      let newBrightness = prevState.brightness * 1.5;
-      if (newBrightness > 1.0) {
-        // Alert the user that this is maximum brightness?
-        newBrightness = 1.0;
-      }
-      return { brightness: newBrightness };
-    });
+    this.props.dispatch({ type: "BRIGHTER" });
   }
 
   dimmerClick() {
-    this.setState(prevState => {
-      let newBrightness = prevState.brightness * 0.66;
-      if (newBrightness < 0.05) {
-        // Alert the user that this is minimum brightness?
-        newBrightness = 0.05;
-      }
-      return { brightness: newBrightness };
-    });
+    this.props.dispatch({ type: "DIMMER" });
   }
 
   showControlsClick() {
-    this.setState(prevState => {
-      return { showControls: !prevState.showControls };
-    });
+    this.props.dispatch({ type: "TOGGLE_CONTROLS" });
   }
 
   showColorClick() {
-    this.setState(prevState => {
-      return { showColors: !prevState.showColors };
-    });
+    this.props.dispatch({ type: "TOGGLE_COLORS" });
   }
 
   setColorClick(newColor) {
-    this.setState(prevState => {
-      return { color: newColor, showColors: false };
-    });
+    this.props.dispatch({ type: "SET_COLOR", color: newColor });
   }
 
   showSecondsClick() {
-    this.setState(prevState => {
-      return { showSeconds: !prevState.showSeconds };
-    });
+    this.props.dispatch({ type: "TOGGLE_SECONDS" });
   }
 
   showDateClick() {
-    this.setState(prevState => {
-      return { showDate: !prevState.showDate };
-    });
+    this.props.dispatch({ type: "TOGGLE_DATE" });
   }
 
   render() {
-    const color = formatColor(this.state.color, this.state.brightness);
+    const clock = this.props.clock;
+    const color = formatColor(clock.color, clock.brightness);
     return (
       <div>
         <div onClick={this.showControlsClick}>
           <ShowTime
-            date={this.state.date}
-            showSeconds={this.state.showSeconds}
+            date={clock.date}
+            showSeconds={clock.showSeconds}
             color={color}
           />
 
-          {this.state.showDate ? (
-            <ShowDate date={this.state.date} color={color} />
+          {clock.showDate ? (
+            <ShowDate date={clock.date} color={color} />
           ) : (
             ""
           )}
         </div>
 
-        {this.state.showControls ? (
+        {clock.showControls ? (
           <div className="controls">
-            <Colors click={this.setColorClick} show={this.state.showColors} />
+            <Colors click={this.setColorClick} show={clock.showColors} />
             <img onClick={this.brighterClick} src={plusCircle} alt="Brighter" />
             <img onClick={this.dimmerClick} src={minusCircle} alt="Dimmer" />
             <img
@@ -180,4 +114,8 @@ class Clock extends Component {
   }
 }
 
-export default Clock;
+function mapStateToProps(state) {
+  return { clock: state };
+}
+
+export default connect(mapStateToProps)(Clock);
