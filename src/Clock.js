@@ -12,18 +12,18 @@ import seconds from "./seconds.svg";
 import showDate from "./show-date.svg";
 
 class Clock extends Component {
-  componentDidMount() {
+  componentDidMount = () => {
     this.timerID = setInterval(() => this.tick(), 1000);
-  }
+  };
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     clearInterval(this.timerID);
-  }
+  };
 
-  tick() {
+  tick = () => {
     this.props.dispatch({ type: "SET_DATE", date: new Date() });
     saveState(this.props.clock);
-  }
+  };
 
   brighterClick = () => {
     this.props.dispatch({ type: "BRIGHTER" });

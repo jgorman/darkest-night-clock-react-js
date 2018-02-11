@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Clock from "./Clock";
-import { reducer } from "./appstate";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
+import { reducer } from "./appstate";
+import Clock from "./Clock";
 
 const store = createStore(reducer);
 

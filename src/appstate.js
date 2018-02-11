@@ -51,7 +51,7 @@ const initialState = () => {
   }
 
   return state;
-}
+};
 
 export const reducer = (state = initialState(), action) => {
   let new_brightness;
@@ -85,13 +85,13 @@ export const reducer = (state = initialState(), action) => {
     default:
       return state;
   }
-}
+};
 
 // Save state in browser storage.
-export const saveState = (state) => {
+export const saveState = state => {
   const settings = JSON.stringify(state);
   localStorage.setItem("clock-settings", settings);
-}
+};
 
 // Get state from browser storage.
 const getOldState = () => {
@@ -102,7 +102,7 @@ const getOldState = () => {
     console.error("getOldState:", err.message);
     return null;
   }
-}
+};
 
 export const formatColor = color => "#" + color.toString(16).padStart(6, "0");
 
