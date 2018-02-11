@@ -1,14 +1,5 @@
 import React from "react";
-import { zeropad } from "./utils";
 
-const formatTime = (date, showSeconds) => {
-  let str = zeropad(date.getHours(), 2);
-  str += ":" + zeropad(date.getMinutes(), 2);
-  if (showSeconds) {
-    str += ":" + zeropad(date.getSeconds(), 2);
-  }
-  return str;
-};
 
 const ShowTime = props => {
   // https://drafts.csswg.org/css-values/#viewport-relative-lengths
@@ -23,4 +14,40 @@ const ShowTime = props => {
   );
 };
 
-export default ShowTime;
+
+const ShowDate = props => {
+  return (
+    <div className="show-date" style={{ color: props.color }}>
+      {formatDate(props.date)}
+    </div>
+  );
+};
+
+
+const zeropad = (num, len) => {
+  const str = num.toString();
+  return str.padStart(len, "0");
+}
+
+
+const formatTime = (date, showSeconds) => {
+  let str = zeropad(date.getHours(), 2);
+  str += ":" + zeropad(date.getMinutes(), 2);
+  if (showSeconds) {
+    str += ":" + zeropad(date.getSeconds(), 2);
+  }
+  return str;
+};
+
+
+const formatDate = date => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const day2 = zeropad(day, 2);
+  const month2 = zeropad(month, 2);
+  return `${year}-${month2}-${day2}`;
+};
+
+
+export { ShowTime, ShowDate };

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import ShowTime from "./ShowTime";
-import ShowDate from "./ShowDate";
+import { ShowTime, ShowDate } from "./ShowTime";
 import Colors from "./Colors";
 import { formatColor } from "./utils";
 import { saveState } from "./appstate";
