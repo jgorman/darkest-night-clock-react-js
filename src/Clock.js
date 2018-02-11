@@ -16,16 +16,6 @@ import showDate from "./show-date.svg";
 class Clock extends Component {
   constructor(props) {
     super(props);
-
-    // Bind the event functions to this.
-    // jj
-    this.brighterClick = this.brighterClick.bind(this);
-    this.dimmerClick = this.dimmerClick.bind(this);
-    this.showControlsClick = this.showControlsClick.bind(this);
-    this.showColorClick = this.showColorClick.bind(this);
-    this.setColorClick = this.setColorClick.bind(this);
-    this.showSecondsClick = this.showSecondsClick.bind(this);
-    this.showDateClick = this.showDateClick.bind(this);
   }
 
   componentDidMount() {
@@ -38,35 +28,34 @@ class Clock extends Component {
 
   tick() {
     this.props.dispatch({ type: "SET_DATE", date: new Date() });
-    // console.log("tick props:", this.props.clock);
     saveState(this.props.clock);
   }
 
-  brighterClick() {
+  brighterClick = () => {
     this.props.dispatch({ type: "BRIGHTER" });
   }
 
-  dimmerClick() {
+  dimmerClick = () => {
     this.props.dispatch({ type: "DIMMER" });
   }
 
-  showControlsClick() {
+  showControlsClick = () => {
     this.props.dispatch({ type: "TOGGLE_CONTROLS" });
   }
 
-  showColorClick() {
+  showColorClick = () => {
     this.props.dispatch({ type: "TOGGLE_COLORS" });
   }
 
-  setColorClick(newColor) {
+  setColorClick = (newColor) => {
     this.props.dispatch({ type: "SET_COLOR", color: newColor });
   }
 
-  showSecondsClick() {
+  showSecondsClick = () => {
     this.props.dispatch({ type: "TOGGLE_SECONDS" });
   }
 
-  showDateClick() {
+  showDateClick = () => {
     this.props.dispatch({ type: "TOGGLE_DATE" });
   }
 
