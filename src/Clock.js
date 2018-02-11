@@ -76,11 +76,7 @@ class Clock extends Component {
 
         {clock.showControls ? (
           <div className="controls">
-            {clock.showColors ? (
-              <Colors click={this.setColorClick} show={clock.showColors} />
-            ) : (
-              ""
-            )}
+            {clock.showColors ? <Colors click={this.setColorClick} /> : ""}
             <img onClick={this.brighterClick} src={plusCircle} alt="Brighter" />
             <img onClick={this.dimmerClick} src={minusCircle} alt="Dimmer" />
             <img
