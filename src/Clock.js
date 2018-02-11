@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 import ShowTime from "./ShowTime";
 import ShowDate from "./ShowDate";
@@ -33,31 +33,31 @@ class Clock extends Component {
 
   brighterClick = () => {
     this.props.dispatch({ type: "BRIGHTER" });
-  }
+  };
 
   dimmerClick = () => {
     this.props.dispatch({ type: "DIMMER" });
-  }
+  };
 
   showControlsClick = () => {
     this.props.dispatch({ type: "TOGGLE_CONTROLS" });
-  }
+  };
 
   showColorClick = () => {
     this.props.dispatch({ type: "TOGGLE_COLORS" });
-  }
+  };
 
-  setColorClick = (newColor) => {
+  setColorClick = newColor => {
     this.props.dispatch({ type: "SET_COLOR", color: newColor });
-  }
+  };
 
   showSecondsClick = () => {
     this.props.dispatch({ type: "TOGGLE_SECONDS" });
-  }
+  };
 
   showDateClick = () => {
     this.props.dispatch({ type: "TOGGLE_DATE" });
-  }
+  };
 
   render() {
     const clock = this.props.clock;
@@ -71,16 +71,16 @@ class Clock extends Component {
             color={color}
           />
 
-          {clock.showDate ? (
-            <ShowDate date={clock.date} color={color} />
-          ) : (
-            ""
-          )}
+          {clock.showDate ? <ShowDate date={clock.date} color={color} /> : ""}
         </div>
 
         {clock.showControls ? (
           <div className="controls">
-            <Colors click={this.setColorClick} show={clock.showColors} />
+            {clock.showColors ? (
+              <Colors click={this.setColorClick} show={clock.showColors} />
+            ) : (
+              ""
+            )}
             <img onClick={this.brighterClick} src={plusCircle} alt="Brighter" />
             <img onClick={this.dimmerClick} src={minusCircle} alt="Dimmer" />
             <img

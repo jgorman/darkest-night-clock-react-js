@@ -18,9 +18,6 @@ class Color extends Component {
 
 class Colors extends Component {
   render() {
-    if (!this.props.show) {
-      return null;
-    }
     const click = this.props.click;
     return (
       <div className="colors">
