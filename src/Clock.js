@@ -14,9 +14,6 @@ import seconds from "./seconds.svg";
 import showDate from "./show-date.svg";
 
 class Clock extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     this.timerID = setInterval(() => this.tick(), 1000);
@@ -70,7 +67,6 @@ class Clock extends Component {
             showSeconds={clock.showSeconds}
             color={color}
           />
-
           {clock.showDate ? <ShowDate date={clock.date} color={color} /> : ""}
         </div>
 

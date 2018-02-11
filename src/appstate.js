@@ -19,7 +19,6 @@ function initialState() {
 
   // Read any saved configuration values.
   const old = getOldState();
-  console.log('Old state:', old);
   if (old !== null) {
     try {
       if (
