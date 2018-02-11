@@ -1,4 +1,3 @@
-
 // Takes [r, g, b] and returns ""#rrggbb" scaled by optional brightness.
 export function formatColor(color_a, brightness = 1.0) {
   let color_s = "#";

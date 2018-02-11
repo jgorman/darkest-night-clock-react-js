@@ -13,7 +13,6 @@ import seconds from "./seconds.svg";
 import showDate from "./show-date.svg";
 
 class Clock extends Component {
-
   componentDidMount() {
     this.timerID = setInterval(() => this.tick(), 1000);
   }

@@ -1,6 +1,5 @@
 import React from "react";
 
-
 const ShowTime = props => {
   // https://drafts.csswg.org/css-values/#viewport-relative-lengths
   const fontSize = props.showSeconds ? "25vw" : "38vw";
@@ -14,7 +13,6 @@ const ShowTime = props => {
   );
 };
 
-
 const ShowDate = props => {
   return (
     <div className="show-date" style={{ color: props.color }}>
@@ -23,12 +21,10 @@ const ShowDate = props => {
   );
 };
 
-
 const zeropad = (num, len) => {
   const str = num.toString();
   return str.padStart(len, "0");
-}
-
+};
 
 const formatTime = (date, showSeconds) => {
   let str = zeropad(date.getHours(), 2);
@@ -39,7 +35,6 @@ const formatTime = (date, showSeconds) => {
   return str;
 };
 
-
 const formatDate = date => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
@@ -48,6 +43,5 @@ const formatDate = date => {
   const month2 = zeropad(month, 2);
   return `${year}-${month2}-${day2}`;
 };
-
 
 export { ShowTime, ShowDate };
