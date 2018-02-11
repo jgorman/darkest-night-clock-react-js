@@ -22,6 +22,8 @@ class Clock extends Component {
       showControls: true,
       showColors: false
     };
+
+    // Read any saved configuration values.
     const old = getOldState();
     if (old !== null) {
       try {
