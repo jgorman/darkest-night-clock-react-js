@@ -1,6 +1,7 @@
 {
-  "short_name": "SPA Timer",
-  "name": "SPA Timer",
+  "short_name": "Bedside Clock",
+  "name": "Bedside Clock",
+  "orientation": "landscape",
   "icons": [
     {
       "src": "favicon.ico",
