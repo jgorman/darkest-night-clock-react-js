@@ -57,7 +57,7 @@ class Clock extends Component {
     const clock = this.props.clock;
     const color = formatColor(scaleColor(clock.color, clock.brightness));
     return (
-      <div>
+      <div className="viewport">
         <div onClick={this.showControlsClick}>
           <ShowTime
             date={clock.date}
