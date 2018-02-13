@@ -2,7 +2,7 @@ import React from "react";
 
 const ShowTime = props => {
   // https://drafts.csswg.org/css-values/#viewport-relative-lengths
-  const fontSize = props.showSeconds ? "25vw" : "38vw";
+  const fontSize = props.showSeconds ? "24vw" : "38vw";
   return (
     <div
       className="show-time"
@@ -31,6 +31,8 @@ const formatTime = (date, showSeconds) => {
   str += ":" + zeropad(date.getMinutes(), 2);
   if (showSeconds) {
     str += ":" + zeropad(date.getSeconds(), 2);
+    // Eventually debug the shifting time. Perhaps a fixed font?
+    // str += ":" + (((date.getSeconds() % 2) === 1) ? "11" : "00");
   }
   return str;
 };
