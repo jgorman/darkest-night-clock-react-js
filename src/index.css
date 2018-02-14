@@ -5,6 +5,7 @@ body {
   font-family: sans-serif;
 }
 
+/* Vertical center. */
 div.viewport {
   position: absolute;
   margin: auto;
@@ -27,7 +28,6 @@ div.show-time {
 
 div.show-date {
   line-height: 1;
-  font-size: 10vw;
 }
 
 div.controls img {

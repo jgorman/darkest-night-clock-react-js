@@ -1,30 +1,41 @@
 import React from "react";
 
 const ShowTime = props => {
-  // https://drafts.csswg.org/css-values/#viewport-relative-lengths
-  const fontSize = props.showSeconds ? "24vw" : "38vw";
+  const width = document.body.clientWidth;
+  const time = formatTime(props.date, props.showSeconds);
+  const fontSize = fontFit(time, width) + "px";
   return (
     <div
       className="show-time"
       style={{ color: props.color, fontSize: fontSize }}
     >
-      {formatTime(props.date, props.showSeconds)}
+      {time}
     </div>
   );
 };
 
 const ShowDate = props => {
+  const width = document.body.clientWidth;
+  const date = formatDate(props.date);
+  const fontSize = fontFit(date, width, 0.6) + "px";
   return (
-    <div className="show-date" style={{ color: props.color }}>
-      {formatDate(props.date)}
+    <div
+      className="show-date"
+      style={{ color: props.color, fontSize: fontSize }}
+    >
+      {date}
     </div>
   );
 };
 
+const fontFit = (str, width, fill = 1.0) => {
+  const fontScale = 1.9; // Font size / char width pixels.
+  return width / str.length * fontScale * fill;
+};
+
 const zeropad = (num, len) => {
   const str = num.toString();
-  if (str.length >= len)
-    return str;
+  if (str.length >= len) return str;
   return "0".repeat(len - str.length) + str;
 };
 
