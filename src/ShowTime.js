@@ -23,7 +23,9 @@ const ShowDate = props => {
 
 const zeropad = (num, len) => {
   const str = num.toString();
-  return str.padStart(len, "0");
+  if (str.length >= len)
+    return str;
+  return "0".repeat(len - str.length) + str;
 };
 
 const formatTime = (date, showSeconds) => {
