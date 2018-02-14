@@ -65,7 +65,11 @@ class Clock extends Component {
             showSeconds={clock.showSeconds}
             color={color}
           />
-          {clock.showDate ? <ShowDate date={clock.date} color={color} /> : ""}
+          {clock.showDate ? (
+            <ShowDate date={clock.date} color={color} />
+          ) : (
+            undefined
+          )}
         </div>
 
         {clock.showControls ? (
@@ -86,7 +90,7 @@ class Clock extends Component {
             <img onClick={this.showDateClick} src={showDate} alt="Show date" />
           </div>
         ) : (
-          ""
+          undefined
         )}
       </div>
     );

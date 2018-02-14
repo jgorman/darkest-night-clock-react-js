@@ -1,4 +1,5 @@
 import React from "react";
+import { zeropad } from "./utils";
 
 const ShowTime = props => {
   const width = document.body.clientWidth;
@@ -31,12 +32,6 @@ const ShowDate = props => {
 const fontFit = (str, width, fill = 1.0) => {
   const fontScale = 1.9; // Font size / char width pixels.
   return width / str.length * fontScale * fill;
-};
-
-const zeropad = (num, len) => {
-  const str = num.toString();
-  if (str.length >= len) return str;
-  return "0".repeat(len - str.length) + str;
 };
 
 const formatTime = (date, showSeconds) => {

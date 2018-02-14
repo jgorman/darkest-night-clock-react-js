@@ -1,6 +1,12 @@
 /* Utilities. */
 
-export const formatColor = color => "#" + color.toString(16).padStart(6, "0");
+export const zeropad = (num, len) => {
+  const str = num.toString();
+  if (str.length >= len) return str;
+  return "0".repeat(len - str.length) + str;
+};
+
+export const formatColor = color => "#" + zeropad(color.toString(16), 6);
 
 export const scaleColor = (color, brightness) => {
   const color_a = [];
