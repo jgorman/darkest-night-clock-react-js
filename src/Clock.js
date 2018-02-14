@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 
 import { ShowTime, ShowDate } from "./ShowTime";
 import Colors from "./Colors";
-import { saveState, formatColor, scaleColor } from "./appstate";
+import { saveState } from "./appstate";
+import { formatColor, scaleColor } from "./utils";
 
 import plusCircle from "./plus-circle.svg";
 import minusCircle from "./minus-circle.svg";

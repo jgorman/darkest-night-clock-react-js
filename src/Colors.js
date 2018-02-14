@@ -1,5 +1,5 @@
 import React from "react";
-import { formatColor } from "./appstate";
+import { formatColor } from "./utils";
 
 const Color = props => {
   const color = formatColor(props.color);
