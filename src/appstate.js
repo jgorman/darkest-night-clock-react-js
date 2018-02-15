@@ -1,5 +1,7 @@
 /* Clock App State Management. */
 
+import { saveState } from "./platform";
+
 const MIN_BRIGHTNESS = 0.05;
 const MAX_BRIGHTNESS = 1.0;
 const DIMMER_RATIO = 0.666;
@@ -18,39 +20,41 @@ const initialState = () => {
     showColors: false
   };
 
-  // Read any saved configuration values.
-  const old = getOldState();
-  if (old !== null) {
-    try {
-      const ob = old.brightness;
-      if (
-        typeof ob === "number" &&
-        ob >= MIN_BRIGHTNESS &&
-        ob <= MAX_BRIGHTNESS
-      ) {
-        state.brightness = ob;
-      }
+  return state;
+};
 
-      const oc = old.color;
-      if (typeof oc === "number" && 1 <= oc && oc <= 0xffffff) {
-        state.color = oc;
-      }
+const mergeOldState = (state, old) => {
+  const news = { ...state };
 
-      if (old.showControls === true || old.showControls === false) {
-        state.showControls = old.showControls;
-      }
-      if (old.showSeconds === true || old.showSeconds === false) {
-        state.showSeconds = old.showSeconds;
-      }
-      if (old.showDate === true || old.showDate === false) {
-        state.showDate = old.showDate;
-      }
-    } catch (err) {
-      console.error("Bad saved state:", err.message);
+  try {
+    const ob = old.brightness;
+    if (
+      typeof ob === "number" &&
+      ob >= MIN_BRIGHTNESS &&
+      ob <= MAX_BRIGHTNESS
+    ) {
+      news.brightness = ob;
     }
+
+    const oc = old.color;
+    if (typeof oc === "number" && 1 <= oc && oc <= 0xffffff) {
+      news.color = oc;
+    }
+
+    if (old.showControls === true || old.showControls === false) {
+      news.showControls = old.showControls;
+    }
+    if (old.showSeconds === true || old.showSeconds === false) {
+      news.showSeconds = old.showSeconds;
+    }
+    if (old.showDate === true || old.showDate === false) {
+      news.showDate = old.showDate;
+    }
+  } catch (err) {
+    return state; // Discard corrupted old state.
   }
 
-  return state;
+  return news;
 };
 
 export const reducer = (state = initialState(), action) => {
@@ -81,25 +85,13 @@ export const reducer = (state = initialState(), action) => {
       };
     case "SET_DATE":
       return { ...state, date: action.date };
+    case "REDUX_STORAGE_LOAD":
+      return mergeOldState(state, action.oldState);
+    case "REDUX_STORAGE_SAVE":
+      saveState(state);
+      return state;
 
     default:
       return state;
-  }
-};
-
-// Save state in browser storage.
-export const saveState = state => {
-  const settings = JSON.stringify(state);
-  localStorage.setItem("clock-settings", settings);
-};
-
-// Get state from browser storage.
-const getOldState = () => {
-  try {
-    const settings = localStorage.getItem("clock-settings");
-    return JSON.parse(settings);
-  } catch (err) {
-    console.error("getOldState:", err.message);
-    return null;
   }
 };

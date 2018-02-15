@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import { ShowTime, ShowDate } from "./ShowTime";
 import Colors from "./Colors";
-import { saveState } from "./appstate";
 import { formatColor, scaleColor } from "./utils";
 
 import plusCircle from "./plus-circle.svg";
@@ -23,7 +22,7 @@ class Clock extends Component {
 
   tick = () => {
     this.props.dispatch({ type: "SET_DATE", date: new Date() });
-    saveState(this.props.clock);
+    this.props.dispatch({ type: "REDUX_STORAGE_SAVE" });
   };
 
   brighterClick = () => {
