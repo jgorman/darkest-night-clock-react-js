@@ -31,13 +31,13 @@ div.show-date {
 }
 
 div.controls img {
-  height: 30px;
-  width: 30px;
-  margin: 3px;
+  height: 40px;
+  width: 40px;
+  margin: 5px;
 }
 
 div.color {
   display: inline-block;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
 }
