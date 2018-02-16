@@ -5,11 +5,11 @@ import { ShowTime, ShowDate } from "./ShowTime";
 import Colors from "./Colors";
 import { formatColor, scaleColor } from "./utils";
 
-import plusCircle from "./plus-circle.svg";
-import minusCircle from "./minus-circle.svg";
-import colors from "./colors.svg";
-import seconds from "./seconds.svg";
-import showDate from "./show-date.svg";
+import plusCircle from "./images/plus-circle.svg";
+import minusCircle from "./images/minus-circle.svg";
+import colors from "./images/colors.svg";
+import seconds from "./images/seconds.svg";
+import showDate from "./images/show-date.svg";
 
 class Clock extends Component {
   componentDidMount = () => {
