@@ -22,7 +22,6 @@ class Clock extends Component {
 
   tick = () => {
     this.props.dispatch({ type: "SET_DATE", date: new Date() });
-    this.props.dispatch({ type: "REDUX_STORAGE_SAVE" });
   };
 
   brighterClick = () => {

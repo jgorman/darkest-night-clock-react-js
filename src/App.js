@@ -14,6 +14,13 @@ class App extends Component {
       type: "REDUX_STORAGE_LOAD",
       oldState: oldState
     });
+
+    store.subscribe(() => {
+      const state = store.getState();
+      if (state.dirty) {
+        store.dispatch({ type: "REDUX_STORAGE_SAVE" });
+      }
+    });
   };
 
   render() {

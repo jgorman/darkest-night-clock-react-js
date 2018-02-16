@@ -61,35 +61,36 @@ export const reducer = (state = initialState(), action) => {
   let new_brightness;
   switch (action.type) {
     case "TOGGLE_CONTROLS":
-      return { ...state, showControls: !state.showControls };
+      return { ...state, showControls: !state.showControls, dirty: true };
     case "TOGGLE_COLORS":
       return { ...state, showColors: !state.showColors };
     case "TOGGLE_SECONDS":
-      return { ...state, showSeconds: !state.showSeconds };
+      return { ...state, showSeconds: !state.showSeconds, dirty: true };
     case "TOGGLE_DATE":
-      return { ...state, showDate: !state.showDate };
+      return { ...state, showDate: !state.showDate, dirty: true };
     case "DIMMER":
       new_brightness = state.brightness * DIMMER_RATIO;
       if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
-      return { ...state, brightness: new_brightness };
+      return { ...state, brightness: new_brightness, dirty: true };
     case "BRIGHTER":
       new_brightness = state.brightness / DIMMER_RATIO;
       if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
-      return { ...state, brightness: new_brightness };
+      return { ...state, brightness: new_brightness, dirty: true };
     case "SET_COLOR":
       return {
         ...state,
         color: action.color || DEFAULT_COLOR,
         brightness: 1,
-        showColors: false
+        showColors: false,
+        dirty: true
       };
     case "SET_DATE":
       return { ...state, date: action.date };
     case "REDUX_STORAGE_LOAD":
       return mergeOldState(state, action.oldState);
     case "REDUX_STORAGE_SAVE":
-      saveState(state);
-      return state;
+      saveState(mergeOldState({}, state));
+      return { ...state, dirty: false };
 
     default:
       return state;
