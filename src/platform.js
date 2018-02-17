@@ -14,6 +14,6 @@ export const getOldState = () => {
     const settings = localStorage.getItem(settingsKey);
     return JSON.parse(settings);
   } catch (err) {
-    return {};  // Discard corrupted old state.
+    return {}; // Discard corrupted old state.
   }
 };
