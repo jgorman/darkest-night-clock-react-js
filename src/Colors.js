@@ -19,9 +19,8 @@ const Colors = props => {
   return (
     <div className="colors">
       <Color click={click} color={0xff0000} />
-      <Color click={click} color={0x00ff00} />
-      <Color click={click} color={0x0000ff} />
       <Color click={click} color={0xff00ff} />
+      <Color click={click} color={0x0000ff} />
       <Color click={click} color={0xffff00} />
       <Color click={click} color={0xffffff} />
     </div>
