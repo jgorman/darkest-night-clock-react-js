@@ -23,11 +23,11 @@ div.viewport {
 }
 
 div.show-time {
-  line-height: 1;
+  line-height: 0.8;
 }
 
 div.show-date {
-  line-height: 1;
+  line-height: 0.8;
 }
 
 div.controls img {
