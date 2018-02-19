@@ -61,7 +61,12 @@ export const reducer = (state = initialState(), action) => {
   let new_brightness;
   switch (action.type) {
     case "TOGGLE_CONTROLS":
-      return { ...state, showControls: !state.showControls, dirty: true };
+      return {
+        ...state,
+        showControls: !state.showControls,
+        showColors: false,
+        dirty: true
+      };
     case "TOGGLE_COLORS":
       return { ...state, showColors: !state.showColors };
     case "TOGGLE_SECONDS":
