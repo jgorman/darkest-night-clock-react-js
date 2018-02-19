@@ -1,5 +1,6 @@
 import React from "react";
 import { zeropad } from "./utils";
+import PropTypes from "prop-types";
 
 const ShowTime = props => {
   const width = document.body.clientWidth;
@@ -13,6 +14,12 @@ const ShowTime = props => {
       {time}
     </div>
   );
+};
+
+ShowTime.propTypes = {
+  date: PropTypes.instanceOf(Date).isRequired,
+  color: PropTypes.string.isRequired,
+  showSeconds: PropTypes.bool.isRequired
 };
 
 const ShowDate = props => {
@@ -29,8 +36,13 @@ const ShowDate = props => {
   );
 };
 
+ShowDate.propTypes = {
+  date: PropTypes.instanceOf(Date).isRequired,
+  color: PropTypes.string.isRequired
+};
+
 const fontFit = (str, width, fill = 1.0) => {
-  const fontScale = 1.9; // Font size / char width pixels.
+  const fontScale = 1.8; // 1.9 is too big for iPhone.
   return width / str.length * fontScale * fill;
 };
 
@@ -39,8 +51,6 @@ const formatTime = (date, showSeconds) => {
   str += ":" + zeropad(date.getMinutes(), 2);
   if (showSeconds) {
     str += ":" + zeropad(date.getSeconds(), 2);
-    // Eventually debug the shifting time. Perhaps a fixed font?
-    // str += ":" + (((date.getSeconds() % 2) === 1) ? "11" : "00");
   }
   return str;
 };

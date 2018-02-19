@@ -1,5 +1,6 @@
 import React from "react";
 import { formatColor } from "./utils";
+import PropTypes from "prop-types";
 
 const Color = props => {
   const color = formatColor(props.color);
@@ -14,6 +15,11 @@ const Color = props => {
   );
 };
 
+Color.propTypes = {
+  color: PropTypes.number.isRequired,
+  click: PropTypes.func.isRequired
+};
+
 const Colors = props => {
   const click = props.click;
   return (
@@ -25,6 +31,10 @@ const Colors = props => {
       <Color click={click} color={0xffffff} />
     </div>
   );
+};
+
+Colors.propTypes = {
+  click: PropTypes.func.isRequired
 };
 
 export default Colors;
