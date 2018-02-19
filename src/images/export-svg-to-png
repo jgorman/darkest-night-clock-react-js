@@ -1,9 +1,8 @@
-# npm install -g svgexport
+# brew install batik
 
-svgexport clock.svg ../../public/clock.png 192:192
+batik-rasterizer -dpi 2048 -h 192 -w 192 clock.svg \
+  -d ../../public/clock-192x192.png
 
-# svgexport colors.svg colors.png 40:40
-# svgexport minus-circle.svg minus-circle.png 40:40
-# svgexport plus-circle.svg plus-circle.png 40:40
-# svgexport seconds.svg seconds.png 40:40
-# svgexport show-date.svg show-date.png 40:40
+batik-rasterizer -dpi 2048 -h 512 -w 512 clock.svg \
+  -d ../../public/clock-512x512.png
+
