@@ -1,6 +1,6 @@
 import React from "react";
-import { formatColor } from "./utils";
 import PropTypes from "prop-types";
+import { formatColor } from "./utils";
 
 const Color = props => {
   const color = formatColor(props.color);
