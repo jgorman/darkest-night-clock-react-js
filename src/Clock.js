@@ -108,7 +108,7 @@ class Clock extends Component<ClockType> {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: ClockState) {
   return { clock: state };
 }
 
