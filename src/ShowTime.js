@@ -56,6 +56,6 @@ ShowDate.propTypes = {
 };
 
 const fontFit = (str, width, fill = 1.0) => {
-  const fontScale = 1.8; // 1.9 is too big for iPhone.
+  const fontScale = 1.8; // 1.9 is too big for iPhone 5s.
   return width / str.length * fontScale * fill;
 };
