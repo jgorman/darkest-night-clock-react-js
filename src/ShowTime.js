@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { zeropad } from "./utils";
+import { formatDate, formatTime } from "./utils";
 import PropTypes from "prop-types";
 
 type ShowTimeType = {
@@ -58,22 +58,4 @@ ShowDate.propTypes = {
 const fontFit = (str, width, fill = 1.0) => {
   const fontScale = 1.8; // 1.9 is too big for iPhone.
   return width / str.length * fontScale * fill;
-};
-
-const formatTime = (date, showSeconds) => {
-  let str = zeropad(date.getHours(), 2);
-  str += ":" + zeropad(date.getMinutes(), 2);
-  if (showSeconds) {
-    str += ":" + zeropad(date.getSeconds(), 2);
-  }
-  return str;
-};
-
-const formatDate = date => {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const day2 = zeropad(day, 2);
-  const month2 = zeropad(month, 2);
-  return `${year}-${month2}-${day2}`;
 };

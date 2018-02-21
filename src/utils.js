@@ -29,3 +29,21 @@ export const scaleColor = (color: number, brightness: number): number => {
   }
   return color_a.reduce((acc, c) => (acc << 8) + c);
 };
+
+export const formatTime = (date: Date, showSeconds: boolean): string => {
+  let str = zeropad(date.getHours(), 2);
+  str += ":" + zeropad(date.getMinutes(), 2);
+  if (showSeconds) {
+    str += ":" + zeropad(date.getSeconds(), 2);
+  }
+  return str;
+};
+
+export const formatDate = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const day2 = zeropad(day, 2);
+  const month2 = zeropad(month, 2);
+  return `${year}-${month2}-${day2}`;
+};
