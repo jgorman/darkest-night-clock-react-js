@@ -1,8 +1,16 @@
+// @flow
 import React from "react";
 import { zeropad } from "./utils";
 import PropTypes from "prop-types";
 
-const ShowTime = props => {
+type ShowTimeType = {
+  date: Date,
+  showSeconds: boolean,
+  color: string
+};
+
+export const ShowTime = (props: ShowTimeType) => {
+  // $FlowFixMe
   const width = document.body.clientWidth;
   const time = formatTime(props.date, props.showSeconds);
   const fontSize = fontFit(time, width) + "px";
@@ -22,7 +30,13 @@ ShowTime.propTypes = {
   showSeconds: PropTypes.bool.isRequired
 };
 
-const ShowDate = props => {
+type ShowDateType = {
+  date: Date,
+  color: string
+};
+
+export const ShowDate = (props: ShowDateType) => {
+  // $FlowFixMe
   const width = document.body.clientWidth;
   const date = formatDate(props.date);
   const fontSize = fontFit(date, width, 0.6) + "px";
@@ -63,5 +77,3 @@ const formatDate = date => {
   const month2 = zeropad(month, 2);
   return `${year}-${month2}-${day2}`;
 };
-
-export { ShowTime, ShowDate };

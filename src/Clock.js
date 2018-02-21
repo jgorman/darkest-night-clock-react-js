@@ -1,9 +1,11 @@
+// @flow
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { ShowTime, ShowDate } from "./ShowTime";
 import Colors from "./Colors";
 import { formatColor, scaleColor } from "./utils";
+import type { ClockState } from "./utils";
 
 import plusCircle from "./images/plus-circle.svg";
 import minusCircle from "./images/minus-circle.svg";
@@ -11,7 +13,14 @@ import colors from "./images/colors.svg";
 import seconds from "./images/seconds.svg";
 import showDate from "./images/show-date.svg";
 
-class Clock extends Component {
+type ClockType = {
+  dispatch: Function,
+  clock: ClockState
+};
+
+class Clock extends Component<ClockType> {
+  timerID: IntervalID;
+
   componentDidMount = () => {
     this.timerID = setInterval(() => this.tick(), 1000);
   };

@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
@@ -7,7 +8,7 @@ import Clock from "./Clock";
 
 const store = createStore(reducer);
 
-class App extends Component {
+class App extends Component<Object> {
   componentDidMount = () => {
     const oldState = getOldState();
     store.dispatch({

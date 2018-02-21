@@ -1,6 +1,8 @@
+// @flow
 /* Clock App State Management. */
 
 import { saveState } from "./platform";
+import type { ClockState } from "./utils";
 
 const MIN_BRIGHTNESS = 0.05;
 const MAX_BRIGHTNESS = 1.0;
@@ -8,7 +10,7 @@ const DIMMER_RATIO = 0.666;
 const DEFAULT_COLOR = 0x0000ff;
 
 // App startup state from defaults and local browser storage.
-const initialState = () => {
+const initialState = (): ClockState => {
   // App defaults.
   const state = {
     date: new Date(),
@@ -23,7 +25,10 @@ const initialState = () => {
   return state;
 };
 
-const mergeOldState = (state, old) => {
+const mergeOldState = (
+  state: ClockState | Object,
+  old: ClockState
+): ClockState => {
   const news = { ...state };
 
   try {
@@ -57,7 +62,16 @@ const mergeOldState = (state, old) => {
   return news;
 };
 
-export const reducer = (state = initialState(), action) => {
+type ActionType = {
+  type: string,
+  date: Date,
+  oldState: ClockState
+};
+
+export const reducer = (
+  state: ClockState = initialState(),
+  action: ActionType
+) => {
   let new_brightness;
   switch (action.type) {
     case "TOGGLE_CONTROLS":
