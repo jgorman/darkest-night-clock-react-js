@@ -10,13 +10,19 @@ type ColorType = {
 
 const Color = (props: ColorType) => {
   const color = formatColor(props.color);
+  const style = {
+    display: "inline-block",
+    height: "60px",
+    width: "60px",
+    margin: "5px",
+    background: color
+  };
   return (
     <div
-      className="color"
+      style={style}
       onClick={() => {
         props.click(props.color);
       }}
-      style={{ background: color }}
     />
   );
 };
@@ -29,7 +35,7 @@ Color.propTypes = {
 const Colors = (props: { click: Function }) => {
   const click = props.click;
   return (
-    <div className="colors">
+    <div>
       <Color click={click} color={0xff0000} />
       <Color click={click} color={0xff00ff} />
       <Color click={click} color={0x0000ff} />

@@ -64,8 +64,28 @@ class Clock extends Component<ClockType> {
   render() {
     const clock = this.props.clock;
     const color = formatColor(scaleColor(clock.color, clock.brightness));
+    const viewport = {
+      position: "absolute",
+      margin: "auto",
+      top: "0px",
+      right: "0px",
+      bottom: "0px",
+      left: "0px",
+      width: "100%",
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      textAlign: "center"
+    };
+    const control = {
+      height: "60px",
+      width: "60px",
+      margin: "5px"
+    };
     return (
-      <div className="viewport">
+      <div style={viewport}>
         <div onClick={this.showControlsClick}>
           <ShowTime
             date={clock.date}
@@ -80,25 +100,42 @@ class Clock extends Component<ClockType> {
         </div>
 
         {clock.showControls ? (
-          <div className="controls">
+          <div>
             {clock.showColors ? (
               <Colors click={this.setColorClick} />
             ) : (
               undefined
             )}
-            <img onClick={this.brighterClick} src={plusCircle} alt="Brighter" />
-            <img onClick={this.dimmerClick} src={minusCircle} alt="Dimmer" />
+            <img
+              onClick={this.brighterClick}
+              src={plusCircle}
+              style={control}
+              alt="Brighter"
+            />
+            <img
+              onClick={this.dimmerClick}
+              src={minusCircle}
+              style={control}
+              alt="Dimmer"
+            />
             <img
               onClick={this.showColorClick}
               src={colors}
+              style={control}
               alt="Select color"
             />
             <img
               onClick={this.showSecondsClick}
               src={seconds}
+              style={control}
               alt="Show seconds"
             />
-            <img onClick={this.showDateClick} src={showDate} alt="Show date" />
+            <img
+              onClick={this.showDateClick}
+              src={showDate}
+              style={control}
+              alt="Show date"
+            />
           </div>
         ) : (
           undefined

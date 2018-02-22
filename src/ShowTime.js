@@ -15,10 +15,7 @@ export const ShowTime = (props: ShowTimeType) => {
   const time = formatTime(props.date, props.showSeconds);
   const fontSize = fontFit(time, width) + "px";
   return (
-    <div
-      className="show-time"
-      style={{ color: props.color, fontSize: fontSize }}
-    >
+    <div style={{ color: props.color, fontSize: fontSize, lineHeight: 0.8 }}>
       {time}
     </div>
   );
@@ -41,10 +38,7 @@ export const ShowDate = (props: ShowDateType) => {
   const date = formatDate(props.date);
   const fontSize = fontFit(date, width, 0.6) + "px";
   return (
-    <div
-      className="show-date"
-      style={{ color: props.color, fontSize: fontSize }}
-    >
+    <div style={{ color: props.color, fontSize: fontSize, lineHeight: 0.8 }}>
       {date}
     </div>
   );
