@@ -9,22 +9,20 @@ const MAX_BRIGHTNESS = 1.0;
 const DIMMER_RATIO = 0.666;
 const DEFAULT_COLOR = 0x0000ff;
 
-// App startup state from defaults and local browser storage.
+// App startup state.
 const initialState = (): ClockState => {
-  // App defaults.
   const state = {
     date: new Date(),
-    brightness: 1.0,
+    brightness: MAX_BRIGHTNESS,
     color: DEFAULT_COLOR,
     showSeconds: false,
     showDate: false,
-    showControls: true,
-    showColors: false
+    showControls: true
   };
-
   return state;
 };
 
+// Merge saved state, being careful to not crash or insert unacceptable values.
 const mergeOldState = (
   state: ClockState | Object,
   old: ClockState
@@ -72,7 +70,6 @@ export const reducer = (
   state: ClockState = initialState(),
   action: ActionType
 ) => {
-  let new_brightness;
   switch (action.type) {
     case "TOGGLE_CONTROLS":
       return {
@@ -88,18 +85,22 @@ export const reducer = (
     case "TOGGLE_DATE":
       return { ...state, showDate: !state.showDate, unsavedState: true };
     case "DIMMER":
-      new_brightness = state.brightness * DIMMER_RATIO;
-      if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
-      return { ...state, brightness: new_brightness, unsavedState: true };
+      {
+        let new_brightness = state.brightness * DIMMER_RATIO;
+        if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
+        return { ...state, brightness: new_brightness, unsavedState: true };
+      }
     case "BRIGHTER":
-      new_brightness = state.brightness / DIMMER_RATIO;
-      if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
-      return { ...state, brightness: new_brightness, unsavedState: true };
+      {
+        let new_brightness = state.brightness / DIMMER_RATIO;
+        if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
+        return { ...state, brightness: new_brightness, unsavedState: true };
+      }
     case "SET_COLOR":
       return {
         ...state,
         color: action.color || DEFAULT_COLOR,
-        brightness: 1,
+        brightness: MAX_BRIGHTNESS,
         showColors: false,
         unsavedState: true
       };
