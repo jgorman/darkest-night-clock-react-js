@@ -8,7 +8,8 @@ export type ClockState = {
   showSeconds: boolean,
   showDate: boolean,
   showControls: boolean,
-  showColors: boolean
+  showColors: boolean,
+  dirty?: boolean
 };
 
 export const zeropad = (num: number | string, len: number): string => {
