@@ -196,7 +196,7 @@ class Clock extends Component<ClockType> {
               style={control}
               alt="Show seconds"
             />
-            
+
             <img
               onClick={this.showDateClick}
               src={showDate}
