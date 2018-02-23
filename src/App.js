@@ -16,9 +16,10 @@ class App extends Component<Object> {
       oldState: oldState
     });
 
+    // Watch to see when we need to save the ClockState.
     store.subscribe(() => {
       const state = store.getState();
-      if (state.dirty) {
+      if (state.unsavedState) {
         store.dispatch({ type: "REDUX_STORAGE_SAVE" });
       }
     });
