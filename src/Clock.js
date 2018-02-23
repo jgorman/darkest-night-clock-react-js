@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 import { ShowTime, ShowDate } from "./ShowTime";
 import { Colors } from "./Colors";
-import { InfoMessage } from "./InfoMessage";
 import { formatColor, scaleColor } from "./utils";
 import type { ClockState } from "./appstate";
 import {
@@ -143,15 +142,18 @@ class Clock extends Component<ClockType> {
     return (
       <div style={viewport}>
         <div onClick={this.showControlsClick}>
-          <InfoMessage
-            userMessage={clock.userMessage}
-            userMessageTimeoutID={clock.userMessageTimeoutID}
-          />
+          {clock.userMessage && clock.userMessageTimeoutID ? (
+            <div style={{ color: "white" }}>{clock.userMessage}</div>
+          ) : (
+            undefined
+          )}
+
           <ShowTime
             date={clock.date}
             showSeconds={clock.showSeconds}
             color={color}
           />
+
           {clock.showDate ? (
             <ShowDate date={clock.date} color={color} />
           ) : (
@@ -166,30 +168,35 @@ class Clock extends Component<ClockType> {
             ) : (
               undefined
             )}
+
             <img
               onClick={this.brighterClick}
               src={plusCircle}
               style={control}
               alt="Brighter"
             />
+
             <img
               onClick={this.dimmerClick}
               src={minusCircle}
               style={control}
               alt="Dimmer"
             />
+
             <img
               onClick={this.showColorClick}
               src={colors}
               style={control}
               alt="Select color"
             />
+
             <img
               onClick={this.showSecondsClick}
               src={seconds}
               style={control}
               alt="Show seconds"
             />
+            
             <img
               onClick={this.showDateClick}
               src={showDate}

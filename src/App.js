@@ -12,10 +12,7 @@ const store = createStore(reducer);
 class App extends Component<Object> {
   componentDidMount = () => {
     const oldState = getOldState();
-    store.dispatch({
-      type: REDUX_STORAGE_LOAD,
-      oldState: oldState
-    });
+    store.dispatch({ type: REDUX_STORAGE_LOAD, oldState: oldState });
 
     // Watch to see when we need to save the ClockState.
     store.subscribe(() => {
