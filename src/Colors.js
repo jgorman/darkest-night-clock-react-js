@@ -32,7 +32,7 @@ Color.propTypes = {
   click: PropTypes.func.isRequired
 };
 
-const Colors = (props: { click: Function }) => {
+export const Colors = (props: { click: Function }) => {
   const click = props.click;
   return (
     <div>
@@ -48,5 +48,3 @@ const Colors = (props: { click: Function }) => {
 Colors.propTypes = {
   click: PropTypes.func.isRequired
 };
-
-export default Colors;

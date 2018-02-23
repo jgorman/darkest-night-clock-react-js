@@ -5,6 +5,7 @@ import { createStore } from "redux";
 import { reducer } from "./appstate";
 import { getOldState } from "./platform";
 import Clock from "./Clock";
+import { REDUX_STORAGE_LOAD, REDUX_STORAGE_SAVE } from "./appstate";
 
 const store = createStore(reducer);
 
@@ -12,7 +13,7 @@ class App extends Component<Object> {
   componentDidMount = () => {
     const oldState = getOldState();
     store.dispatch({
-      type: "REDUX_STORAGE_LOAD",
+      type: REDUX_STORAGE_LOAD,
       oldState: oldState
     });
 
@@ -20,7 +21,7 @@ class App extends Component<Object> {
     store.subscribe(() => {
       const state = store.getState();
       if (state.unsavedState) {
-        store.dispatch({ type: "REDUX_STORAGE_SAVE" });
+        store.dispatch({ type: REDUX_STORAGE_SAVE });
       }
     });
   };

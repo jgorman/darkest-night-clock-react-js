@@ -1,17 +1,6 @@
 // @flow
 /* Utilities. */
 
-export type ClockState = {
-  date: Date,
-  brightness: number,
-  color: number,
-  showSeconds: boolean,
-  showDate: boolean,
-  showControls: boolean,
-  showColors: boolean,
-  unsavedState?: boolean
-};
-
 export const zeropad = (num: number | string, len: number): string => {
   const str = num.toString();
   if (str.length >= len) return str;
