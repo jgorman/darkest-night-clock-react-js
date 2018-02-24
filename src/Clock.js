@@ -118,6 +118,10 @@ class Clock extends Component<ClockType> {
     this.props.dispatch({ type: TOGGLE_DATE });
   };
 
+  showVersionPress = () => {
+    this.showMessage("Build version 2018-02-23 18:45:10");
+  };
+
   render() {
     const clock = this.props.clock;
     const color = formatColor(scaleColor(clock.color, clock.brightness));
@@ -146,7 +150,10 @@ class Clock extends Component<ClockType> {
 
     return (
       <div style={viewport}>
-        <div onClick={this.showControlsClick}>
+        <div
+          onClick={this.showControlsClick}
+          onDoubleClick={this.showVersionPress}
+        >
           {clock.userMessage && clock.userMessageTimeoutID ? (
             <div style={{ color: "white" }}>{clock.userMessage}</div>
           ) : (
