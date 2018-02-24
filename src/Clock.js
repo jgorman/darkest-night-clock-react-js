@@ -2,10 +2,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import plusCircle from "./images/plus-circle.svg";
+import minusCircle from "./images/minus-circle.svg";
+import colors from "./images/colors.svg";
+import seconds from "./images/seconds.svg";
+import showDate from "./images/show-date.svg";
+
 import { ShowTime, ShowDate } from "./ShowTime";
 import { Colors } from "./Colors";
 import { formatColor, scaleColor } from "./utils";
+
 import type { ClockState } from "./appstate";
+
 import {
   MIN_BRIGHTNESS,
   MAX_BRIGHTNESS,
@@ -24,12 +32,6 @@ import {
   SHOW_MESSAGE,
   HIDE_MESSAGE
 } from "./appstate";
-
-import plusCircle from "./images/plus-circle.svg";
-import minusCircle from "./images/minus-circle.svg";
-import colors from "./images/colors.svg";
-import seconds from "./images/seconds.svg";
-import showDate from "./images/show-date.svg";
 
 type ClockType = {
   dispatch: Function,
@@ -119,6 +121,7 @@ class Clock extends Component<ClockType> {
   render() {
     const clock = this.props.clock;
     const color = formatColor(scaleColor(clock.color, clock.brightness));
+
     const viewport = {
       position: "absolute",
       margin: "auto",
@@ -134,11 +137,13 @@ class Clock extends Component<ClockType> {
       alignItems: "center",
       textAlign: "center"
     };
+
     const control = {
       height: "60px",
       width: "60px",
       margin: "5px"
     };
+
     return (
       <div style={viewport}>
         <div onClick={this.showControlsClick}>

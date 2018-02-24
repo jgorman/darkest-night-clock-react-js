@@ -10,21 +10,15 @@ type ColorType = {
 
 const Color = (props: ColorType) => {
   const color = formatColor(props.color);
-  const style = {
+  const paintChip = {
     display: "inline-block",
     height: "60px",
     width: "60px",
     margin: "5px",
     background: color
   };
-  return (
-    <div
-      style={style}
-      onClick={() => {
-        props.click(props.color);
-      }}
-    />
-  );
+
+  return <div style={paintChip} onClick={() => props.click(props.color)} />;
 };
 
 Color.propTypes = {

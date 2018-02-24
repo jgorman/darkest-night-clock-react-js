@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
-import { formatDate, formatTime } from "./utils";
 import PropTypes from "prop-types";
+import { formatDate, formatTime } from "./utils";
 
 type ShowTimeType = {
   date: Date,
@@ -14,11 +14,13 @@ export const ShowTime = (props: ShowTimeType) => {
   const width = document.body.clientWidth;
   const time = formatTime(props.date, props.showSeconds);
   const fontSize = fontFit(time, width) + "px";
-  return (
-    <div style={{ color: props.color, fontSize: fontSize, lineHeight: 0.8 }}>
-      {time}
-    </div>
-  );
+  const box = {
+    color: props.color,
+    fontSize: fontSize,
+    lineHeight: 0.8
+  };
+
+  return <div style={box}> {time} </div>;
 };
 
 ShowTime.propTypes = {
@@ -37,11 +39,13 @@ export const ShowDate = (props: ShowDateType) => {
   const width = document.body.clientWidth;
   const date = formatDate(props.date);
   const fontSize = fontFit(date, width, 0.6) + "px";
-  return (
-    <div style={{ color: props.color, fontSize: fontSize, lineHeight: 0.8 }}>
-      {date}
-    </div>
-  );
+  const box = {
+    color: props.color,
+    fontSize: fontSize,
+    lineHeight: 0.8
+  };
+
+  return <div style={box}>{date}</div>;
 };
 
 ShowDate.propTypes = {

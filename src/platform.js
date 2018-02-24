@@ -1,19 +1,19 @@
 // @flow
 /* React.js utilities. */
-import type { ClockState } from "./appstate";
 
-const settingsKey = "clockSettings";
+import type { ClockState } from "./appstate";
+import { SETTINGS_KEY } from "./appstate";
 
 // Save state in browser storage.
 export const saveState = (state: ClockState) => {
   const settings = JSON.stringify(state);
-  localStorage.setItem(settingsKey, settings);
+  localStorage.setItem(SETTINGS_KEY, settings);
 };
 
 // Get state from browser storage.
 export const getOldState = () => {
   try {
-    const settings = localStorage.getItem(settingsKey);
+    const settings = localStorage.getItem(SETTINGS_KEY);
     if (settings) {
       return JSON.parse(settings);
     }
