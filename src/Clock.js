@@ -118,7 +118,7 @@ class Clock extends Component<ClockType> {
   };
 
   showVersionPress = () => {
-    this.showMessage(`Build id ${BUILD_ID}`);
+    this.showMessage(`Build ${BUILD_ID}`);
   };
 
   render() {

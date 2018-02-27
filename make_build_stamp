@@ -1,0 +1,1 @@
+echo "export default '`date '+%Y-%m-%d %H:%M:%S'`';" > src/build.js

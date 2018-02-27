@@ -2,6 +2,7 @@
 /* Clock App State Management. */
 
 import { saveState } from "./platform";
+import build_stamp from "./build.js";
 
 export const MIN_BRIGHTNESS = 0.05;
 export const MAX_BRIGHTNESS = 1.0;
@@ -9,7 +10,7 @@ export const DEFAULT_COLOR = 0x0000ff;
 export const DIMMER_RATIO = 0.666;
 export const MESSAGE_DWELL = 1000;
 export const SETTINGS_KEY = "clockSettings";
-export const BUILD_ID = "1.01";
+export const BUILD_ID = build_stamp;
 
 export const TOGGLE_SECONDS = "TOGGLE_SECONDS";
 export const TOGGLE_DATE = "TOGGLE_DATE";
