@@ -19,7 +19,7 @@ import {
   MAX_BRIGHTNESS,
   DIMMER_RATIO,
   MESSAGE_DWELL,
-  BUILD_ID
+  VERSION
 } from "./appstate";
 
 import {
@@ -118,7 +118,7 @@ class Clock extends Component<ClockType> {
   };
 
   showVersionPress = () => {
-    this.showMessage(`Build ${BUILD_ID}`);
+    this.showMessage(`Version ${VERSION}`);
   };
 
   render() {
