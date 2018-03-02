@@ -1,6 +1,6 @@
 # bedside-clock-react-js
 
-> A bedside clock web app written in React.js
+## A bedside clock web app written in React.js
 
 You can make the clock display quite dim in order to be readable at night without adding much illumination to the room. Studies have shown that ambient light at night can reduce sleep quality and can also lead to nearsightedness due to the eyes constantly attempting to focus while sleeping.
 
