@@ -84,7 +84,14 @@ class Clock extends Component<ClockType> {
     if (new_brightness !== old_brightness) {
       this.props.dispatch({ type: SET_BRIGHTNESS, brightness: new_brightness });
     }
-    this.showMessage(`${Math.round(new_brightness * 100)}%`);
+    let message = `${Math.round(new_brightness * 100)}%`;
+    if (
+      new_brightness === old_brightness &&
+      this.props.clock.userMessageTimeoutID
+    ) {
+      message = `${message} Version ${VERSION}`;
+    }
+    this.showMessage(message);
   };
 
   dimmerClick = () => {
@@ -117,10 +124,6 @@ class Clock extends Component<ClockType> {
     this.props.dispatch({ type: TOGGLE_DATE });
   };
 
-  showVersionPress = () => {
-    this.showMessage(`Version ${VERSION}`);
-  };
-
   render() {
     const clock = this.props.clock;
     const color = formatColor(scaleColor(clock.color, clock.brightness));
@@ -149,10 +152,7 @@ class Clock extends Component<ClockType> {
 
     return (
       <div style={viewport}>
-        <div
-          onClick={this.showControlsClick}
-          onDoubleClick={this.showVersionPress}
-        >
+        <div onClick={this.showControlsClick}>
           {clock.userMessage && clock.userMessageTimeoutID ? (
             <div style={{ color: "white" }}>{clock.userMessage}</div>
           ) : (
@@ -181,17 +181,17 @@ class Clock extends Component<ClockType> {
             )}
 
             <img
-              onClick={this.brighterClick}
-              src={plusCircle}
-              style={control}
-              alt="Brighter"
-            />
-
-            <img
               onClick={this.dimmerClick}
               src={minusCircle}
               style={control}
               alt="Dimmer"
+            />
+
+            <img
+              onClick={this.brighterClick}
+              src={plusCircle}
+              style={control}
+              alt="Brighter"
             />
 
             <img
