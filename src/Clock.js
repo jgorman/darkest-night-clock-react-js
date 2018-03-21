@@ -10,7 +10,7 @@ import showDate from "./images/show-date.svg";
 
 import { ShowTime, ShowDate } from "./ShowTime";
 import { Colors } from "./Colors";
-import { formatColor, scaleColor } from "./utils";
+import { formatColor, scaleColor, viewWidth, fontFit } from "./utils";
 
 import type { ClockState } from "./appstate";
 
@@ -127,6 +127,8 @@ class Clock extends Component<ClockType> {
   render() {
     const clock = this.props.clock;
     const color = formatColor(scaleColor(clock.color, clock.brightness));
+    const width = viewWidth();
+    const controlWidth = fontFit("Control Icons", width, 0.8);
 
     const viewport = {
       position: "absolute",
@@ -145,8 +147,8 @@ class Clock extends Component<ClockType> {
     };
 
     const control = {
-      height: "60px",
-      width: "60px",
+      height: controlWidth,
+      width: controlWidth,
       margin: "5px"
     };
 
@@ -175,7 +177,7 @@ class Clock extends Component<ClockType> {
         {clock.showControls ? (
           <div>
             {clock.showColors ? (
-              <Colors click={this.setColorClick} />
+              <Colors size={controlWidth} click={this.setColorClick} />
             ) : (
               undefined
             )}

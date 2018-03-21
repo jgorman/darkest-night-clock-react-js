@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import PropTypes from "prop-types";
-import { formatDate, formatTime } from "./utils";
+import { formatDate, formatTime, viewWidth, fontFit } from "./utils";
 
 type ShowTimeType = {
   date: Date,
@@ -10,10 +10,9 @@ type ShowTimeType = {
 };
 
 export const ShowTime = (props: ShowTimeType) => {
-  // $FlowFixMe
-  const width = document.body.clientWidth;
+  const width = viewWidth();
   const time = formatTime(props.date, props.showSeconds);
-  const fontSize = fontFit(time, width) + "px";
+  const fontSize = fontFit(time, width);
   const box = {
     color: props.color,
     fontSize: fontSize,
@@ -35,10 +34,9 @@ type ShowDateType = {
 };
 
 export const ShowDate = (props: ShowDateType) => {
-  // $FlowFixMe
-  const width = document.body.clientWidth;
+  const width = viewWidth();
   const date = formatDate(props.date);
-  const fontSize = fontFit(date, width, 0.6) + "px";
+  const fontSize = fontFit(date, width, 0.6);
   const box = {
     color: props.color,
     fontSize: fontSize,
@@ -51,9 +49,4 @@ export const ShowDate = (props: ShowDateType) => {
 ShowDate.propTypes = {
   date: PropTypes.instanceOf(Date).isRequired,
   color: PropTypes.string.isRequired
-};
-
-const fontFit = (str: string, width: number, fill = 1.0): number => {
-  const fontScale = 1.8; // 1.9 is too big for iPhone 5s.
-  return width / str.length * fontScale * fill;
 };
