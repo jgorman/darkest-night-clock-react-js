@@ -3,15 +3,15 @@
   width="24"
   height="24"
   viewBox="0 0 24 24"
-  fill="none"
+  fill="#ffd700"
   stroke="grey"
   stroke-width="2"
   stroke-linecap="round"
   stroke-linejoin="round"
   class="feather feather-colors">
 
-  <circle cx="12" cy="12" r="10"></circle>
+  <circle stroke="grey" cx="12" cy="12" r="10"></circle>
   <circle stroke="#ff0000" cx="12" cy="8" r="1"></circle>
-  <circle stroke="#00ff00" cx="8" cy="14" r="1"></circle>
-  <circle stroke="#ffff00" cx="16" cy="14" r="1"></circle>
+  <circle stroke="#00bb00" cx="8" cy="14" r="1"></circle>
+  <circle stroke="#6666ff" cx="16" cy="14" r="1"></circle>
 </svg>
