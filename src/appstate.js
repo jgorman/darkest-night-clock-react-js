@@ -5,7 +5,7 @@ import { saveState } from "./platform";
 
 export const MIN_BRIGHTNESS = 0.04;
 export const MAX_BRIGHTNESS = 1.0;
-export const DEFAULT_COLOR = 0x0000ff;
+export const DEFAULT_COLOR = 0x6666ff;
 export const DIMMER_RATIO = 0.666;
 export const MESSAGE_DWELL = 1000;
 export const SETTINGS_KEY = "clockSettings";
@@ -44,7 +44,7 @@ const initialState = (): ClockState => {
     color: DEFAULT_COLOR,
     showSeconds: false,
     showDate: false,
-    showControls: true
+    showControls: false
   };
   return state;
 };
