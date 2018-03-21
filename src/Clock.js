@@ -89,7 +89,7 @@ class Clock extends Component<ClockType> {
       new_brightness === old_brightness &&
       this.props.clock.userMessageTimeoutID
     ) {
-      message = `${message} Version ${VERSION}`;
+      message = `${message} Darkest Night Clock ${VERSION}`;
     }
     this.showMessage(message);
   };
