@@ -4,14 +4,15 @@ import PropTypes from "prop-types";
 import { formatColor } from "./utils";
 
 type ColorType = {
-  size: string,
   color: number,
+  size: string,
   click: Function
 };
 
 const Color = (props: ColorType) => {
   const color = formatColor(props.color);
   const size = props.size;
+
   const paintChip = {
     display: "inline-block",
     height: size,
@@ -35,8 +36,8 @@ type ColorsType = {
 };
 
 export const Colors = (props: ColorsType) => {
-  const click = props.click;
   const size = props.size;
+  const click = props.click;
   return (
     <div>
       <Color size={size} click={click} color={0xff0000} />

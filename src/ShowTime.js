@@ -10,8 +10,8 @@ type ShowTimeType = {
 };
 
 export const ShowTime = (props: ShowTimeType) => {
-  const width = viewWidth();
   const time = formatTime(props.date, props.showSeconds);
+  const width = viewWidth();
   const fontSize = fontFit(time, width);
   const box = {
     color: props.color,
