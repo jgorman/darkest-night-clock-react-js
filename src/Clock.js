@@ -76,11 +76,13 @@ class Clock extends Component<ClockType> {
   brightnessTimeoutID = undefined;
 
   brighterStart = () => {
+    this.brightnessEnd();
     this.brighterClick();
     this.brightnessTimeoutID = setTimeout(this.brighterStart, DIMMER_DWELL);
   };
 
   dimmerStart = () => {
+    this.brightnessEnd();
     this.dimmerClick();
     this.brightnessTimeoutID = setTimeout(this.dimmerStart, DIMMER_DWELL);
   };
