@@ -26,17 +26,21 @@ export const Controls = (props: ControlsType) => {
   return (
     <div>
       <img
-        onClick={clock.dimmerClick}
         src={minusCircle}
         style={control}
         alt="Dimmer"
+        onContextMenu={e => e.preventDefault()}
+        onTouchStart={clock.dimmerStart}
+        onTouchEnd={clock.brightnessEnd}
       />
 
       <img
-        onClick={clock.brighterClick}
         src={plusCircle}
         style={control}
         alt="Brighter"
+        onContextMenu={e => e.preventDefault()}
+        onTouchStart={clock.brighterStart}
+        onTouchEnd={clock.brightnessEnd}
       />
 
       <img

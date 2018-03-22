@@ -13,6 +13,7 @@ import {
   MIN_BRIGHTNESS,
   MAX_BRIGHTNESS,
   DIMMER_RATIO,
+  DIMMER_DWELL,
   MESSAGE_DWELL,
   VERSION
 } from "./appstate";
@@ -56,6 +57,7 @@ class Clock extends Component<ClockType> {
     // Clear any pending timeout.
     if (this.userMessageTimeoutID) {
       clearTimeout(this.userMessageTimeoutID);
+      this.userMessageTimeoutID = undefined;
     }
 
     // Set a new timeout.
@@ -71,6 +73,23 @@ class Clock extends Component<ClockType> {
     });
   };
 
+  brightnessTimeoutID = undefined;
+
+  brighterStart = () => {
+    this.brighterClick();
+    this.brightnessTimeoutID = setTimeout(this.brighterStart, DIMMER_DWELL);
+  };
+
+  dimmerStart = () => {
+    this.dimmerClick();
+    this.brightnessTimeoutID = setTimeout(this.dimmerStart, DIMMER_DWELL);
+  };
+
+  brightnessEnd = () => {
+    if (this.brightnessTimeoutID) {
+      clearTimeout(this.brightnessTimeoutID);
+      this.brightnessTimeoutID = undefined;
+    }
   };
 
   brighterClick = () => {
@@ -81,10 +100,7 @@ class Clock extends Component<ClockType> {
       this.props.dispatch({ type: SET_BRIGHTNESS, brightness: new_brightness });
     }
     let message = `${Math.round(new_brightness * 100)}%`;
-    if (
-      new_brightness === old_brightness &&
-      this.props.clock.userMessageTimeoutID
-    ) {
+    if (new_brightness === old_brightness && this.props.clock.userMessage) {
       message = `${message} Darkest Night Clock ${VERSION}`;
     }
     this.showMessage(message);
