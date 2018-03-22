@@ -10,6 +10,6 @@
   stroke-linejoin="round"
   class="feather feather-clock">
 
-  <circle stroke="blue" cx="12" cy="12" r="10"></circle>
+  <circle stroke="blue" fill="#ffd700" cx="12" cy="12" r="10"></circle>
   <polyline stroke="red" points="12 6 12 12 16 14"></polyline>
 </svg>
