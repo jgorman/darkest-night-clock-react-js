@@ -16,7 +16,7 @@ export const ShowTime = (props: ShowTimeType) => {
   const box = {
     color: props.color,
     fontSize: fontSize,
-    lineHeight: 0.8
+    lineHeight: 0.9
   };
 
   return <div style={box}> {time} </div>;
@@ -40,7 +40,7 @@ export const ShowDate = (props: ShowDateType) => {
   const box = {
     color: props.color,
     fontSize: fontSize,
-    lineHeight: 0.8
+    lineHeight: 0.9
   };
 
   return <div style={box}>{date}</div>;

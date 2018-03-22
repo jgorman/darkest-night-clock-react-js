@@ -143,6 +143,7 @@ export const reducer = (
     case HIDE_MESSAGE:
       return {
         ...state,
+        userMessage: undefined,
         userMessageTimeoutID: undefined
       };
 

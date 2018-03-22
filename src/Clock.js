@@ -141,14 +141,15 @@ class Clock extends Component<ClockType> {
       textAlign: "center"
     };
 
+    const message = {
+      color: "white",
+      height: "5px"
+    };
+
     return (
       <div style={viewport}>
         <div onClick={this.showControlsClick}>
-          {clock.userMessage && clock.userMessageTimeoutID ? (
-            <div style={{ color: "white" }}>{clock.userMessage}</div>
-          ) : (
-            undefined
-          )}
+          <div style={message}>{clock.userMessage}</div>
 
           <ShowTime
             date={clock.date}
