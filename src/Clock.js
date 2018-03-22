@@ -2,13 +2,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import plusCircle from "./images/plus-circle.svg";
-import minusCircle from "./images/minus-circle.svg";
-import colors from "./images/colors.svg";
-import seconds from "./images/seconds.svg";
-import showDate from "./images/show-date.svg";
-
 import { ShowTime, ShowDate } from "./ShowTime";
+import { Controls } from "./Controls";
 import { Colors } from "./Colors";
 import { formatColor, scaleColor, viewWidth, fontFit } from "./utils";
 
@@ -146,12 +141,6 @@ class Clock extends Component<ClockType> {
       textAlign: "center"
     };
 
-    const control = {
-      height: controlWidth,
-      width: controlWidth,
-      margin: "5px"
-    };
-
     return (
       <div style={viewport}>
         <div onClick={this.showControlsClick}>
@@ -179,43 +168,8 @@ class Clock extends Component<ClockType> {
             {clock.showColors ? (
               <Colors size={controlWidth} click={this.setColorClick} />
             ) : (
-              undefined
+              <Controls size={controlWidth} clock={this} />
             )}
-
-            <img
-              onClick={this.dimmerClick}
-              src={minusCircle}
-              style={control}
-              alt="Dimmer"
-            />
-
-            <img
-              onClick={this.brighterClick}
-              src={plusCircle}
-              style={control}
-              alt="Brighter"
-            />
-
-            <img
-              onClick={this.showColorClick}
-              src={colors}
-              style={control}
-              alt="Select color"
-            />
-
-            <img
-              onClick={this.showSecondsClick}
-              src={seconds}
-              style={control}
-              alt="Show seconds"
-            />
-
-            <img
-              onClick={this.showDateClick}
-              src={showDate}
-              style={control}
-              alt="Show date"
-            />
           </div>
         ) : (
           undefined
