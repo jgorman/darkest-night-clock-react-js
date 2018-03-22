@@ -30,8 +30,9 @@ export const Controls = (props: ControlsType) => {
         style={control}
         alt="Dimmer"
         onContextMenu={e => e.preventDefault()}
-        onTouchStart={clock.dimmerStart}
-        onTouchEnd={clock.brightnessEnd}
+        onTouchStart={clock.dimmerTouch}
+        onTouchEnd={clock.endTouch}
+        onClick={clock.dimmerClick}
       />
 
       <img
@@ -39,8 +40,9 @@ export const Controls = (props: ControlsType) => {
         style={control}
         alt="Brighter"
         onContextMenu={e => e.preventDefault()}
-        onTouchStart={clock.brighterStart}
-        onTouchEnd={clock.brightnessEnd}
+        onTouchStart={clock.brighterTouch}
+        onTouchEnd={clock.endTouch}
+        onClick={clock.brighterClick}
       />
 
       <img

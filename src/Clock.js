@@ -74,27 +74,48 @@ class Clock extends Component<ClockType> {
   };
 
   brightnessTimeoutID = undefined;
+  gotTouch = false;
 
-  brighterStart = () => {
-    this.brightnessEnd();
-    this.brighterClick();
-    this.brightnessTimeoutID = setTimeout(this.brighterStart, DIMMER_DWELL);
+  // Sometimes we get touch events. If so they are before the click.
+
+  brighterTouch = () => {
+    this.gotTouch = true;
+    this.endTouch();
+    this.brighterNow();
+    this.brightnessTimeoutID = setTimeout(this.brighterTouch, DIMMER_DWELL);
   };
 
-  dimmerStart = () => {
-    this.brightnessEnd();
-    this.dimmerClick();
-    this.brightnessTimeoutID = setTimeout(this.dimmerStart, DIMMER_DWELL);
+  dimmerTouch = () => {
+    this.gotTouch = true;
+    this.endTouch();
+    this.dimmerNow();
+    this.brightnessTimeoutID = setTimeout(this.dimmerTouch, DIMMER_DWELL);
   };
 
-  brightnessEnd = () => {
+  endTouch = () => {
     if (this.brightnessTimeoutID) {
       clearTimeout(this.brightnessTimeoutID);
       this.brightnessTimeoutID = undefined;
     }
   };
 
+  // We always get click events. After any touch events.
+
   brighterClick = () => {
+    if (!this.gotTouch) {
+      this.brighterNow();
+    }
+    this.gotTouch = false;
+  };
+
+  dimmerClick = () => {
+    if (!this.gotTouch) {
+      this.dimmerNow();
+    }
+    this.gotTouch = false;
+  };
+
+  brighterNow = () => {
     const old_brightness = this.props.clock.brightness;
     let new_brightness = old_brightness / DIMMER_RATIO;
     if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
@@ -108,7 +129,7 @@ class Clock extends Component<ClockType> {
     this.showMessage(message);
   };
 
-  dimmerClick = () => {
+  dimmerNow = () => {
     const old_brightness = this.props.clock.brightness;
     let new_brightness = old_brightness * DIMMER_RATIO;
     if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
