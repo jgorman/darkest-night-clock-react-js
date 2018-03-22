@@ -25,8 +25,7 @@ import {
   SET_DATE,
   SET_BRIGHTNESS,
   SET_COLOR,
-  SHOW_MESSAGE,
-  HIDE_MESSAGE
+  SHOW_MESSAGE
 } from "./appstate";
 
 type ClockType = {
@@ -49,27 +48,29 @@ class Clock extends Component<ClockType> {
     this.props.dispatch({ type: SET_DATE, date: new Date() });
   };
 
+  userMessageTimeoutID = undefined;
+
   showMessage = message => {
-    const clock = this.props.clock;
     const dispatch = this.props.dispatch;
 
     // Clear any pending timeout.
-    if (clock.userMessageTimeoutID) {
-      clearTimeout(clock.userMessageTimeoutID);
+    if (this.userMessageTimeoutID) {
+      clearTimeout(this.userMessageTimeoutID);
     }
 
     // Set a new timeout.
-    const timeoutID = setTimeout(
-      () => dispatch({ type: HIDE_MESSAGE }),
+    this.userMessageTimeoutID = setTimeout(
+      () => dispatch({ type: SHOW_MESSAGE, userMessage: undefined }),
       MESSAGE_DWELL
     );
 
     // Activate the message.
     dispatch({
       type: SHOW_MESSAGE,
-      userMessage: message,
-      userMessageTimeoutID: timeoutID
+      userMessage: message
     });
+  };
+
   };
 
   brighterClick = () => {

@@ -19,7 +19,6 @@ export const SET_DATE = "SET_DATE";
 export const SET_BRIGHTNESS = "SET_BRIGHTNESS";
 export const SET_COLOR = "SET_COLOR";
 export const SHOW_MESSAGE = "SHOW_MESSAGE";
-export const HIDE_MESSAGE = "HIDE_MESSAGE";
 export const REDUX_STORAGE_LOAD = "REDUX_STORAGE_LOAD";
 export const REDUX_STORAGE_SAVE = "REDUX_STORAGE_SAVE";
 
@@ -32,8 +31,7 @@ export type ClockState = {
   showControls: boolean,
   showColors?: boolean,
   unsavedState?: boolean,
-  userMessage?: string,
-  userMessageTimeoutID?: TimeoutID
+  userMessage?: string
 };
 
 // App startup state.
@@ -93,8 +91,7 @@ type ActionType = {
   brightness: number,
   color: number,
   oldState: ClockState,
-  userMessage: string,
-  userMessageTimeoutID: TimeoutID
+  userMessage: string
 };
 
 export const reducer = (
@@ -137,14 +134,7 @@ export const reducer = (
     case SHOW_MESSAGE:
       return {
         ...state,
-        userMessage: action.userMessage,
-        userMessageTimeoutID: action.userMessageTimeoutID
-      };
-    case HIDE_MESSAGE:
-      return {
-        ...state,
-        userMessage: undefined,
-        userMessageTimeoutID: undefined
+        userMessage: action.userMessage
       };
 
     case REDUX_STORAGE_LOAD:
