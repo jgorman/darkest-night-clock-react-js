@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import { ShowTime, ShowDate } from "./ShowTime";
 import { Controls } from "./Controls";
 import { Colors } from "./Colors";
-import { formatColor, scaleColor, viewWidth, fontFit } from "./utils";
+import { formatColor, scaleColor, fontFit } from "./utils";
+import { viewWidth } from "./platform";
 
 import type { ClockState } from "./appstate";
 
@@ -163,7 +164,7 @@ class Clock extends Component<ClockType> {
     const clock = this.props.clock;
     const color = formatColor(scaleColor(clock.color, clock.brightness));
     const width = viewWidth();
-    const controlWidth = fontFit("Control Icons", width, 0.8);
+    const controlWidth = fontFit("Control Icons", width, 0.8) + "px";
 
     const viewport = {
       position: "absolute",

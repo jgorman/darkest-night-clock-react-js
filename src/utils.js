@@ -38,11 +38,12 @@ export const formatDate = (date: Date): string => {
   return `${year}-${month2}-${day2}`;
 };
 
-export const fontFit = (str: string, width: number, fill: number = 1.0): string => {
+export const fontFit = (
+  str: string,
+  width: number,
+  fill: number = 1.0
+): number => {
   const fontScale = 1.8; // 1.9 is too big for iPhone 5s.
   const px = Math.round(width / str.length * fontScale * fill);
-  return `${px}px`;
+  return px;
 };
-
-// $FlowFixMe
-export const viewWidth = () => document.body.clientWidth;
