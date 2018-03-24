@@ -5,7 +5,7 @@ import { formatColor } from "./utils";
 
 type ColorType = {
   color: number,
-  size: string,
+  size: number,
   click: Function
 };
 
@@ -13,11 +13,16 @@ const Color = (props: ColorType) => {
   const color = formatColor(props.color);
   const size = props.size;
 
+  // Color dots should match control icon visible circle size: 22/24 of image.
+  const dotSize = size * 22 / 24;
+  const extraMargin = (size - dotSize) / 2;
+
   const paintChip = {
     display: "inline-block",
-    height: size,
-    width: size,
-    margin: "5px",
+    height: dotSize + "px",
+    width: dotSize + "px",
+    borderRadius: dotSize + "px",
+    margin: 5 + extraMargin + "px",
     background: color
   };
 
@@ -26,12 +31,12 @@ const Color = (props: ColorType) => {
 
 Color.propTypes = {
   color: PropTypes.number.isRequired,
-  size: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
   click: PropTypes.func.isRequired
 };
 
 type ColorsType = {
-  size: string,
+  size: number,
   click: Function
 };
 
@@ -50,6 +55,6 @@ export const Colors = (props: ColorsType) => {
 };
 
 Colors.propTypes = {
-  size: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
   click: PropTypes.func.isRequired
 };

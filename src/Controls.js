@@ -9,7 +9,7 @@ import seconds from "./images/seconds.svg";
 import showDate from "./images/show-date.svg";
 
 type ControlsType = {
-  size: string,
+  size: number,
   clock: Object
 };
 
@@ -18,8 +18,8 @@ export const Controls = (props: ControlsType) => {
   const clock = props.clock;
 
   const control = {
-    height: size,
-    width: size,
+    height: size + "px",
+    width: size + "px",
     margin: "5px"
   };
 
@@ -70,6 +70,6 @@ export const Controls = (props: ControlsType) => {
 };
 
 Controls.propTypes = {
-  size: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
   clock: PropTypes.object.isRequired
 };

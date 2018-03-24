@@ -164,7 +164,7 @@ class Clock extends Component<ClockType> {
     const clock = this.props.clock;
     const color = formatColor(scaleColor(clock.color, clock.brightness));
     const width = viewWidth();
-    const controlWidth = fontFit("Control Icons", width, 0.8) + "px";
+    const controlWidth = fontFit("Control Icons", width, 0.8);
 
     const viewport = {
       position: "absolute",
