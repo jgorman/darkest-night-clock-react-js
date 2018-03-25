@@ -166,7 +166,8 @@ class Clock extends Component<ClockType> {
 
     const message = {
       color: "white",
-      height: "5px"
+      fontSize: "3vw",
+      height: "3vw"
     };
 
     return (
