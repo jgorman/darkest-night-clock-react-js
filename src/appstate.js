@@ -29,7 +29,7 @@ export type ClockState = {
   color: number,
   showSeconds: boolean,
   showDate: boolean,
-  showControls: boolean,
+  showControls?: boolean,
   showColors?: boolean,
   unsavedState?: boolean,
   userMessage?: string
@@ -42,8 +42,7 @@ const initialState = (): ClockState => {
     brightness: MAX_BRIGHTNESS,
     color: DEFAULT_COLOR,
     showSeconds: false,
-    showDate: false,
-    showControls: false
+    showDate: false
   };
   return state;
 };
@@ -70,9 +69,6 @@ const mergeOldState = (
       news.color = oc;
     }
 
-    if (old.showControls === true || old.showControls === false) {
-      news.showControls = old.showControls;
-    }
     if (old.showSeconds === true || old.showSeconds === false) {
       news.showSeconds = old.showSeconds;
     }
@@ -109,8 +105,7 @@ export const reducer = (
       return {
         ...state,
         showControls: !state.showControls,
-        showColors: false,
-        unsavedState: true
+        showColors: false
       };
     case TOGGLE_COLORS:
       return { ...state, showColors: !state.showColors };
