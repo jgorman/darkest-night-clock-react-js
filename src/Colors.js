@@ -13,7 +13,7 @@ const Color = (props: ColorType) => {
   const color = formatColor(props.color);
   const size = props.size;
 
-  // Color dots should match control icon visible circle size: 22/24 of image.
+  // Control icons are 24x24 with 1px transparent margin, circle diameter is 22.
   const dotSize = size * 22 / 24;
   const extraMargin = (size - dotSize) / 2;
 

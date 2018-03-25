@@ -20,6 +20,3 @@ export const getOldState = () => {
   } catch (err) {}
   return {}; // Discard missing or corrupted old state.
 };
-
-// $FlowFixMe
-export const viewWidth = () => document.body.clientWidth;

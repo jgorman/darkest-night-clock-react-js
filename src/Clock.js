@@ -2,11 +2,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { ShowTime, ShowDate } from "./ShowTime";
 import { Controls } from "./Controls";
 import { Colors } from "./Colors";
-import { formatColor, scaleColor, fontFit } from "./utils";
-import { viewWidth } from "./platform";
+import { formatTime, formatDate, formatColor } from "./utils";
+import { scaleColor, fontFit } from "./utils";
 
 import type { ClockState } from "./appstate";
 
@@ -145,10 +144,43 @@ class Clock extends Component<ClockType> {
   render() {
     const clock = this.props.clock;
     const color = formatColor(scaleColor(clock.color, clock.brightness));
-    const width = viewWidth();
-    const controlWidth = fontFit("Control Icons", width, 0.8);
 
-    const viewport = {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    // Calculate the time height.
+		let time_s = formatTime(clock.date, clock.showSeconds);
+		let time_h = fontFit(time_s, width);
+
+    // Calculate the optional date height.
+		let date_s = undefined;
+		let date_h = 0;
+    if (clock.showDate) {
+      date_s = formatDate(clock.date);
+      date_h = fontFit(date_s, width, 0.6);
+    }
+
+    // Calculate the optional controls height.
+    let control_h = 0;
+    if (clock.showControls) {
+      control_h = fontFit("Control Icons", width, 0.8);
+    }
+
+    // Leave room for the (usually hidden) message.
+    let total_h = time_h + date_h + control_h;
+    let message_h = total_h * 0.08;
+    total_h += message_h;
+
+    // Scale them all to fit vertically.
+    if (total_h > height) {
+      const ratio = height / total_h;
+      time_h *= ratio;
+      date_h *= ratio;
+      control_h *= ratio;
+      message_h *= ratio;
+    }
+
+    const viewport_style = {
       position: "absolute",
       margin: "auto",
       top: "0px",
@@ -164,25 +196,31 @@ class Clock extends Component<ClockType> {
       textAlign: "center"
     };
 
-    const message = {
+    const message_style = {
       color: "white",
-      fontSize: "3vw",
-      height: "3vw"
+      fontSize: message_h + "px",
+      height: message_h + "px"
     };
 
+		const time_style = {
+			color: color,
+			fontSize: time_h + "px",
+			lineHeight: 0.9
+		};
+
+		const date_style = {
+			color: color,
+			fontSize: date_h + "px",
+			lineHeight: 0.9
+		};
+
     return (
-      <div style={viewport}>
+      <div style={viewport_style}>
         <div onClick={this.showControlsClick}>
-          <div style={message}>{clock.userMessage}</div>
-
-          <ShowTime
-            date={clock.date}
-            showSeconds={clock.showSeconds}
-            color={color}
-          />
-
+          <div style={message_style}>{clock.userMessage}</div>
+					<div style={time_style}>{time_s}</div>
           {clock.showDate ? (
-            <ShowDate date={clock.date} color={color} />
+						<div style={date_style}>{date_s}</div>
           ) : (
             undefined
           )}
@@ -191,9 +229,9 @@ class Clock extends Component<ClockType> {
         {clock.showControls ? (
           <div>
             {clock.showColors ? (
-              <Colors size={controlWidth} click={this.setColorClick} />
+              <Colors size={control_h} click={this.setColorClick} />
             ) : (
-              <Controls size={controlWidth} clock={this} />
+              <Controls size={control_h} clock={this} />
             )}
           </div>
         ) : (

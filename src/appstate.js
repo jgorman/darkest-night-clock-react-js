@@ -3,6 +3,7 @@
 
 import { saveState } from "./platform";
 
+export const VERSION = "1.0.4c";
 export const MIN_BRIGHTNESS = 0.02;
 export const MAX_BRIGHTNESS = 1.0;
 export const DEFAULT_COLOR = 0x6666ff;
@@ -10,7 +11,6 @@ export const DIMMER_RATIO = 0.8;
 export const DIMMER_DWELL = 150;
 export const MESSAGE_DWELL = 1000;
 export const SETTINGS_KEY = "clockSettings";
-export const VERSION = "1.0";
 
 export const TOGGLE_SECONDS = "TOGGLE_SECONDS";
 export const TOGGLE_DATE = "TOGGLE_DATE";
