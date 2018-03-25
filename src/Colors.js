@@ -22,7 +22,8 @@ const Color = (props: ColorType) => {
     height: dotSize + "px",
     width: dotSize + "px",
     borderRadius: dotSize + "px",
-    margin: 5 + extraMargin + "px",
+    marginLeft: 5 + extraMargin + "px",
+    marginRight: 5 + extraMargin + "px",
     background: color
   };
 
@@ -44,7 +45,7 @@ export const Colors = (props: ColorsType) => {
   const size = props.size;
   const click = props.click;
   return (
-    <div>
+    <div style={{ height: size + "px" }}>
       <Color size={size} click={click} color={0xff0000} />
       <Color size={size} click={click} color={0x00bb00} />
       <Color size={size} click={click} color={0x6666ff} />

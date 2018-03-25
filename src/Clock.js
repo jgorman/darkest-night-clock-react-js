@@ -89,7 +89,7 @@ class Clock extends Component<ClockType> {
     this.brightnessTimeoutID = setTimeout(this.dimmerTouch, DIMMER_DWELL);
   };
 
-  endTouch = (e) => {
+  endTouch = e => {
     if (e) e.preventDefault(); // Cancel the click.
     if (this.brightnessTimeoutID) {
       clearTimeout(this.brightnessTimeoutID);
@@ -149,31 +149,31 @@ class Clock extends Component<ClockType> {
     const height = window.innerHeight;
 
     // Calculate the time height.
-		let time_s = formatTime(clock.date, clock.showSeconds);
-		let time_h = fontFit(time_s, width);
+    let time_s = formatTime(clock.date, clock.showSeconds);
+    let time_h = fontFit(time_s, width);
 
     // Calculate the optional date height.
-		let date_s = undefined;
-		let date_h = 0;
+    let date_s = undefined;
+    let date_h = 0;
     if (clock.showDate) {
       date_s = formatDate(clock.date);
       date_h = fontFit(date_s, width, 0.6);
     }
 
-    // Calculate the optional controls height.
+    // Calculate the optional control and messages height.
     let control_h = 0;
+    let message_h = 0;
     if (clock.showControls) {
       control_h = fontFit("Control Icons", width, 0.8);
+      let main_h = time_h + date_h + control_h;
+      message_h = main_h * 0.08;
     }
 
-    // Leave room for the (usually hidden) message.
-    let total_h = time_h + date_h + control_h;
-    let message_h = total_h * 0.08;
-    total_h += message_h;
-
-    // Scale them all to fit vertically.
-    if (total_h > height) {
-      const ratio = height / total_h;
+    // Scale for vertical fit if necessary, leaving room for padding.
+    let total_h = time_h + date_h + control_h + message_h;
+    let target_h = height * 1.0;
+    if (total_h > target_h) {
+      const ratio = target_h / total_h;
       time_h *= ratio;
       date_h *= ratio;
       control_h *= ratio;
@@ -202,38 +202,36 @@ class Clock extends Component<ClockType> {
       height: message_h + "px"
     };
 
-		const time_style = {
-			color: color,
-			fontSize: time_h + "px",
-			lineHeight: 0.9
-		};
+    const time_style = {
+      color: color,
+      fontSize: time_h + "px",
+      lineHeight: 0.9
+    };
 
-		const date_style = {
-			color: color,
-			fontSize: date_h + "px",
-			lineHeight: 0.9
-		};
+    const date_style = {
+      color: color,
+      fontSize: date_h + "px",
+      lineHeight: 0.9
+    };
 
     return (
       <div style={viewport_style}>
         <div onClick={this.showControlsClick}>
-          <div style={message_style}>{clock.userMessage}</div>
-					<div style={time_style}>{time_s}</div>
-          {clock.showDate ? (
-						<div style={date_style}>{date_s}</div>
+          {clock.showControls ? (
+            <div style={message_style}>{clock.userMessage}</div>
           ) : (
             undefined
           )}
+          <div style={time_style}>{time_s}</div>
+          {clock.showDate ? <div style={date_style}>{date_s}</div> : undefined}
         </div>
 
         {clock.showControls ? (
-          <div>
-            {clock.showColors ? (
-              <Colors size={control_h} click={this.setColorClick} />
-            ) : (
-              <Controls size={control_h} clock={this} />
-            )}
-          </div>
+          clock.showColors ? (
+            <Colors size={control_h} click={this.setColorClick} />
+          ) : (
+            <Controls size={control_h} clock={this} />
+          )
         ) : (
           undefined
         )}
