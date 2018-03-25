@@ -75,48 +75,30 @@ class Clock extends Component<ClockType> {
   };
 
   brightnessTimeoutID = undefined;
-  gotTouch = false;
 
-  // Sometimes we get touch events. If so they are before the click.
+  // If the browser implements touches, we cancel the resulting clicks.
 
   brighterTouch = () => {
-    this.gotTouch = true;
     this.endTouch();
-    this.brighterNow();
+    this.brighterClick();
     this.brightnessTimeoutID = setTimeout(this.brighterTouch, DIMMER_DWELL);
   };
 
   dimmerTouch = () => {
-    this.gotTouch = true;
     this.endTouch();
-    this.dimmerNow();
+    this.dimmerClick();
     this.brightnessTimeoutID = setTimeout(this.dimmerTouch, DIMMER_DWELL);
   };
 
-  endTouch = () => {
+  endTouch = (e) => {
+    if (e) e.preventDefault(); // Cancel the click.
     if (this.brightnessTimeoutID) {
       clearTimeout(this.brightnessTimeoutID);
       this.brightnessTimeoutID = undefined;
     }
   };
 
-  // We always get click events. After any touch events.
-
   brighterClick = () => {
-    if (!this.gotTouch) {
-      this.brighterNow();
-    }
-    this.gotTouch = false;
-  };
-
-  dimmerClick = () => {
-    if (!this.gotTouch) {
-      this.dimmerNow();
-    }
-    this.gotTouch = false;
-  };
-
-  brighterNow = () => {
     const old_brightness = this.props.clock.brightness;
     let new_brightness = old_brightness / DIMMER_RATIO;
     if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
@@ -130,7 +112,7 @@ class Clock extends Component<ClockType> {
     this.showMessage(message);
   };
 
-  dimmerNow = () => {
+  dimmerClick = () => {
     const old_brightness = this.props.clock.brightness;
     let new_brightness = old_brightness * DIMMER_RATIO;
     if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
