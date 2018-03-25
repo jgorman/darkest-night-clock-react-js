@@ -171,7 +171,7 @@ class Clock extends Component<ClockType> {
 
     // Scale for vertical fit if necessary, leaving room for padding.
     let total_h = time_h + date_h + control_h + message_h;
-    let target_h = height * 1.0;
+    let target_h = height * 0.9;
     if (total_h > target_h) {
       const ratio = target_h / total_h;
       time_h *= ratio;

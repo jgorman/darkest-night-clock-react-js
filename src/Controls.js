@@ -20,11 +20,10 @@ export const Controls = (props: ControlsType) => {
   const control = {
     height: size + "px",
     width: size + "px",
-    marginLeft: "5px",
-    marginRight: "5px"
+    margin: "5px"
   };
   return (
-    <div style={{ height: size + "px" }}>
+    <div>
       <img
         src={minusCircle}
         style={control}
