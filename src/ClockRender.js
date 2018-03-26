@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from "react";
+import React from "react";
 
 import { Controls } from "./Controls";
 import { Colors } from "./Colors";

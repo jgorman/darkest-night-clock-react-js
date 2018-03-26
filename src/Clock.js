@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from "react";
+import { Component } from "react";
 import { connect } from "react-redux";
 
 import { formatTime, formatDate, formatColor } from "./utils";
@@ -77,8 +77,8 @@ class Clock extends Component<ClockType> {
    */
 
   touchId = undefined;
-  touchFirstX = undefined;
-  touchLatestX = undefined;
+  touchFirstX = 0;
+  touchLatestX = 0;
 
   brightnessStart = e => {
     e.preventDefault();
@@ -107,8 +107,6 @@ class Clock extends Component<ClockType> {
       e.preventDefault(); // Swipe moved so don't process this as a click.
     }
     this.touchId = undefined;
-    this.touchFirstX = undefined;
-    this.touchLatestX = undefined;
   };
 
   brightnessDiff = (id, x) => {
