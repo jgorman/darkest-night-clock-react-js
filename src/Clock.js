@@ -230,7 +230,7 @@ class Clock extends Component<ClockType> {
           clock.showColors ? (
             <Colors size={control_h} click={this.setColorClick} />
           ) : (
-            <Controls size={control_h} clock={this} />
+            <Controls size={control_h} Clock={this} />
           )
         ) : (
           undefined

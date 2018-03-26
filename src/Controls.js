@@ -10,12 +10,12 @@ import showDate from "./images/show-date.svg";
 
 type ControlsType = {
   size: number,
-  clock: Object
+  Clock: Object
 };
 
 export const Controls = (props: ControlsType) => {
   const size = props.size;
-  const clock = props.clock;
+  const Clock = props.Clock;
 
   const control = {
     height: size + "px",
@@ -29,10 +29,10 @@ export const Controls = (props: ControlsType) => {
         style={control}
         alt="Dimmer"
         onContextMenu={e => e.preventDefault()}
-        onTouchStart={clock.dimmerTouch}
-        onTouchEnd={clock.endTouch}
-        onTouchCancel={clock.endTouch}
-        onClick={clock.dimmerClick}
+        onTouchStart={Clock.dimmerTouch}
+        onTouchEnd={Clock.endTouch}
+        onTouchCancel={Clock.endTouch}
+        onClick={Clock.dimmerClick}
       />
 
       <img
@@ -40,28 +40,28 @@ export const Controls = (props: ControlsType) => {
         style={control}
         alt="Brighter"
         onContextMenu={e => e.preventDefault()}
-        onTouchStart={clock.brighterTouch}
-        onTouchEnd={clock.endTouch}
-        onTouchCancel={clock.endTouch}
-        onClick={clock.brighterClick}
+        onTouchStart={Clock.brighterTouch}
+        onTouchEnd={Clock.endTouch}
+        onTouchCancel={Clock.endTouch}
+        onClick={Clock.brighterClick}
       />
 
       <img
-        onClick={clock.showColorClick}
+        onClick={Clock.showColorClick}
         src={colors}
         style={control}
         alt="Select color"
       />
 
       <img
-        onClick={clock.showSecondsClick}
+        onClick={Clock.showSecondsClick}
         src={seconds}
         style={control}
         alt="Show seconds"
       />
 
       <img
-        onClick={clock.showDateClick}
+        onClick={Clock.showDateClick}
         src={showDate}
         style={control}
         alt="Show date"
@@ -72,5 +72,5 @@ export const Controls = (props: ControlsType) => {
 
 Controls.propTypes = {
   size: PropTypes.number.isRequired,
-  clock: PropTypes.object.isRequired
+  Clock: PropTypes.object.isRequired
 };
