@@ -77,19 +77,19 @@ class Clock extends Component<ClockType> {
 
   // If the browser implements touches, we cancel the resulting clicks.
 
-  brighterTouch = () => {
-    this.endTouch();
+  brighterPress = () => {
+    this.endPress();
     this.brighterClick();
-    this.brightnessTimeoutID = setTimeout(this.brighterTouch, DIMMER_DWELL);
+    this.brightnessTimeoutID = setTimeout(this.brighterPress, DIMMER_DWELL);
   };
 
-  dimmerTouch = () => {
-    this.endTouch();
+  dimmerPress = () => {
+    this.endPress();
     this.dimmerClick();
-    this.brightnessTimeoutID = setTimeout(this.dimmerTouch, DIMMER_DWELL);
+    this.brightnessTimeoutID = setTimeout(this.dimmerPress, DIMMER_DWELL);
   };
 
-  endTouch = e => {
+  endPress = e => {
     if (e) e.preventDefault(); // Cancel the click.
     if (this.brightnessTimeoutID) {
       clearTimeout(this.brightnessTimeoutID);
