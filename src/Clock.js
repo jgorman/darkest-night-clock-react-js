@@ -2,12 +2,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Controls } from "./Controls";
-import { Colors } from "./Colors";
 import { formatTime, formatDate, formatColor } from "./utils";
 import { scaleColor, fontFit } from "./utils";
 import { viewWidth, viewHeight } from "./platform";
-
+import { ClockRender } from "./ClockRender";
 import type { ClockState } from "./appstate";
 
 import {
@@ -32,7 +30,7 @@ import {
 
 type ClockType = {
   dispatch: Function,
-  clock: ClockState
+  state: ClockState
 };
 
 class Clock extends Component<ClockType> {
@@ -117,7 +115,7 @@ class Clock extends Component<ClockType> {
     if (id === this.touchId && this.touchLatestX !== x) {
       const width = viewWidth();
       const diff = x - this.touchLatestX;
-      const old_brightness = this.props.clock.brightness;
+      const old_brightness = this.props.state.brightness;
       let new_brightness = old_brightness + 2 * diff / width;
       if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
       if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
@@ -165,14 +163,14 @@ class Clock extends Component<ClockType> {
 
   // One tick brighter.
   brighterClick = () => {
-    const old_brightness = this.props.clock.brightness;
+    const old_brightness = this.props.state.brightness;
     let new_brightness = old_brightness / DIMMER_RATIO;
     if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
     if (new_brightness !== old_brightness) {
       this.props.dispatch({ type: SET_BRIGHTNESS, brightness: new_brightness });
     }
     let message = `${Math.round(new_brightness * 100)}%`;
-    if (new_brightness === old_brightness && this.props.clock.userMessage) {
+    if (new_brightness === old_brightness && this.props.state.userMessage) {
       message = `${message} Darkest Night Clock ${VERSION}`;
     }
     this.showMessage(message);
@@ -180,7 +178,7 @@ class Clock extends Component<ClockType> {
 
   // One tick dimmer.
   dimmerClick = () => {
-    const old_brightness = this.props.clock.brightness;
+    const old_brightness = this.props.state.brightness;
     let new_brightness = old_brightness * DIMMER_RATIO;
     if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
     if (new_brightness !== old_brightness) {
@@ -210,108 +208,51 @@ class Clock extends Component<ClockType> {
   };
 
   render() {
-    const clock = this.props.clock;
-    const color = formatColor(scaleColor(clock.color, clock.brightness));
+    const state = this.props.state;
+    const calc = {};
+    calc.color = formatColor(scaleColor(state.color, state.brightness));
 
     const width = viewWidth();
     const height = viewHeight();
 
     // Calculate the time height.
-    let time_s = formatTime(clock.date, clock.showSeconds);
-    let time_h = fontFit(time_s, width);
+    calc.time_s = formatTime(state.date, state.showSeconds);
+    calc.time_h = fontFit(calc.time_s, width);
 
     // Calculate the optional date height.
-    let date_s = undefined;
-    let date_h = 0;
-    if (clock.showDate) {
-      date_s = formatDate(clock.date);
-      date_h = fontFit(date_s, width, 0.6);
+    calc.date_s = undefined;
+    calc.date_h = 0;
+    if (state.showDate) {
+      calc.date_s = formatDate(state.date);
+      calc.date_h = fontFit(calc.date_s, width, 0.6);
     }
 
     // Calculate the optional controls height.
-    let control_h = 0;
-    if (clock.showControls) {
-      control_h = fontFit("Control Icons", width, 0.8);
+    calc.control_h = 0;
+    if (state.showControls) {
+      calc.control_h = fontFit("Control Icons", width, 0.8);
     }
 
     // Calculate the message height.
-    let message_h = (time_h + date_h + control_h) * 0.08;
+    calc.message_h = (calc.time_h + calc.date_h + calc.control_h) * 0.08;
 
     // Scale for vertical fit if necessary, leaving room for padding.
-    let total_h = time_h + date_h + control_h + message_h;
+    let total_h = calc.time_h + calc.date_h + calc.control_h + calc.message_h;
     let target_h = height * 0.9;
     if (total_h > target_h) {
       const ratio = target_h / total_h;
-      time_h *= ratio;
-      date_h *= ratio;
-      control_h *= ratio;
-      message_h *= ratio;
+      calc.time_h *= ratio;
+      calc.date_h *= ratio;
+      calc.control_h *= ratio;
+      calc.message_h *= ratio;
     }
 
-    const viewport_style = {
-      position: "absolute",
-      margin: "auto",
-      top: "0px",
-      right: "0px",
-      bottom: "0px",
-      left: "0px",
-      width: "100%",
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      textAlign: "center"
-    };
-
-    const message_style = {
-      color: "white",
-      fontSize: message_h + "px",
-      height: message_h + "px"
-    };
-
-    const time_style = {
-      color: color,
-      fontSize: time_h + "px",
-      lineHeight: 0.9
-    };
-
-    const date_style = {
-      color: color,
-      fontSize: date_h + "px",
-      lineHeight: 0.9
-    };
-
-    return (
-      <div style={viewport_style}>
-        <div
-          onTouchStart={this.brightnessStart}
-          onTouchMove={this.brightnessMove}
-          onTouchEnd={this.brightnessEnd}
-          onTouchCancel={this.brightnessEnd}
-          onClick={this.showControlsClick}
-        >
-          <div style={message_style}>{clock.userMessage}</div>
-          <div style={time_style}>{time_s}</div>
-          {clock.showDate ? <div style={date_style}>{date_s}</div> : undefined}
-        </div>
-
-        {clock.showControls ? (
-          clock.showColors ? (
-            <Colors size={control_h} click={this.setColorClick} />
-          ) : (
-            <Controls size={control_h} Clock={this} />
-          )
-        ) : (
-          undefined
-        )}
-      </div>
-    );
+    return ClockRender(this, state, calc);
   }
 }
 
 function mapStateToProps(state: ClockState) {
-  return { clock: state };
+  return { state: state };
 }
 
 export default connect(mapStateToProps)(Clock);
