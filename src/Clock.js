@@ -73,30 +73,96 @@ class Clock extends Component<ClockType> {
     });
   };
 
-  brightnessTimeoutID = undefined;
+  /*
+   * These functions handle brightness swiping on the time & date display.
+   */
 
-  // If the browser implements touches, we cancel the resulting clicks.
+  touchId = undefined;
+  touchFirstX = undefined;
+  touchLatestX = undefined;
 
-  brighterPress = () => {
-    this.endPress();
-    this.brighterClick();
-    this.brightnessTimeoutID = setTimeout(this.brighterPress, DIMMER_DWELL);
-  };
-
-  dimmerPress = () => {
-    this.endPress();
-    this.dimmerClick();
-    this.brightnessTimeoutID = setTimeout(this.dimmerPress, DIMMER_DWELL);
-  };
-
-  endPress = e => {
-    if (e) e.preventDefault(); // Cancel the click.
-    if (this.brightnessTimeoutID) {
-      clearTimeout(this.brightnessTimeoutID);
-      this.brightnessTimeoutID = undefined;
+  brightnessStart = e => {
+    e.preventDefault();
+    const touch = e.changedTouches[0];
+    if (touch) {
+      this.touchId = touch.identifier;
+      this.touchFirstX = touch.pageX;
+      this.touchLatestX = touch.pageX;
     }
   };
 
+  brightnessMove = e => {
+    e.preventDefault();
+    const touch = e.targetTouches[0];
+    if (touch) {
+      this.brightnessDiff(touch.identifier, touch.pageX);
+    }
+  };
+
+  brightnessEnd = e => {
+    const touch = e.changedTouches[0];
+    if (touch) {
+      this.brightnessDiff(touch.identifier, touch.pageX);
+    }
+    if (Math.abs(this.touchFirstX - this.touchLatestX) > 1.0) {
+      e.preventDefault(); // Swipe moved so don't process this as a click.
+    }
+    this.touchId = undefined;
+    this.touchFirstX = undefined;
+    this.touchLatestX = undefined;
+  };
+
+  brightnessDiff = (id, x) => {
+    if (id === this.touchId && this.touchLatestX !== x) {
+      const width = window.innerWidth;
+      const diff = x - this.touchLatestX;
+      const old_brightness = this.props.clock.brightness;
+      let new_brightness = old_brightness + 2 * diff / width;
+      if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
+      if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
+      if (new_brightness !== old_brightness) {
+        this.props.dispatch({
+          type: SET_BRIGHTNESS,
+          brightness: new_brightness
+        });
+      }
+      this.touchLatestX = x;
+      this.showMessage(`${Math.round(new_brightness * 100)}%`);
+    }
+  };
+
+  /*
+   * These functions handle presses and clicks on the brighter / dimmer buttons.
+   * Phone browsers call onTouchStart/onTouchEnd so we can run continuous
+   * brightening or dimming while pressing and ignore the click events.
+   * Desktop browsers run on clicks alone.
+   */
+  pressingTimeoutID = undefined;
+
+  // Keep calling ourselves until endPress cancels the timer.
+  brighterPress = () => {
+    this.endPress();
+    this.brighterClick();
+    this.pressingTimeoutID = setTimeout(this.brighterPress, DIMMER_DWELL);
+  };
+
+  // Keep calling ourselves until endPress cancels the timer.
+  dimmerPress = () => {
+    this.endPress();
+    this.dimmerClick();
+    this.pressingTimeoutID = setTimeout(this.dimmerPress, DIMMER_DWELL);
+  };
+
+  // Cancel the timer and cancel the click.
+  endPress = e => {
+    if (e) e.preventDefault(); // Cancel the click.
+    if (this.pressingTimeoutID) {
+      clearTimeout(this.pressingTimeoutID); // Cancel the timer.
+      this.pressingTimeoutID = undefined;
+    }
+  };
+
+  // One tick brighter.
   brighterClick = () => {
     const old_brightness = this.props.clock.brightness;
     let new_brightness = old_brightness / DIMMER_RATIO;
@@ -111,6 +177,7 @@ class Clock extends Component<ClockType> {
     this.showMessage(message);
   };
 
+  // One tick dimmer.
   dimmerClick = () => {
     const old_brightness = this.props.clock.brightness;
     let new_brightness = old_brightness * DIMMER_RATIO;
@@ -160,14 +227,14 @@ class Clock extends Component<ClockType> {
       date_h = fontFit(date_s, width, 0.6);
     }
 
-    // Calculate the optional control and messages height.
+    // Calculate the optional controls height.
     let control_h = 0;
-    let message_h = 0;
     if (clock.showControls) {
       control_h = fontFit("Control Icons", width, 0.8);
-      let main_h = time_h + date_h + control_h;
-      message_h = main_h * 0.08;
     }
+
+    // Calculate the message height.
+    let message_h = (time_h + date_h + control_h) * 0.08;
 
     // Scale for vertical fit if necessary, leaving room for padding.
     let total_h = time_h + date_h + control_h + message_h;
@@ -216,12 +283,14 @@ class Clock extends Component<ClockType> {
 
     return (
       <div style={viewport_style}>
-        <div onClick={this.showControlsClick}>
-          {clock.showControls ? (
-            <div style={message_style}>{clock.userMessage}</div>
-          ) : (
-            undefined
-          )}
+        <div
+          onTouchStart={this.brightnessStart}
+          onTouchMove={this.brightnessMove}
+          onTouchEnd={this.brightnessEnd}
+          onTouchCancel={this.brightnessEnd}
+          onClick={this.showControlsClick}
+        >
+          <div style={message_style}>{clock.userMessage}</div>
           <div style={time_style}>{time_s}</div>
           {clock.showDate ? <div style={date_style}>{date_s}</div> : undefined}
         </div>
