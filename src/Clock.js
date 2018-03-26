@@ -6,6 +6,7 @@ import { Controls } from "./Controls";
 import { Colors } from "./Colors";
 import { formatTime, formatDate, formatColor } from "./utils";
 import { scaleColor, fontFit } from "./utils";
+import { viewWidth, viewHeight } from "./platform";
 
 import type { ClockState } from "./appstate";
 
@@ -114,7 +115,7 @@ class Clock extends Component<ClockType> {
 
   brightnessDiff = (id, x) => {
     if (id === this.touchId && this.touchLatestX !== x) {
-      const width = window.innerWidth;
+      const width = viewWidth();
       const diff = x - this.touchLatestX;
       const old_brightness = this.props.clock.brightness;
       let new_brightness = old_brightness + 2 * diff / width;
@@ -212,8 +213,8 @@ class Clock extends Component<ClockType> {
     const clock = this.props.clock;
     const color = formatColor(scaleColor(clock.color, clock.brightness));
 
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    const width = viewWidth();
+    const height = viewHeight();
 
     // Calculate the time height.
     let time_s = formatTime(clock.date, clock.showSeconds);

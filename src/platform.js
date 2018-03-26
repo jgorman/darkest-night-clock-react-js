@@ -20,3 +20,6 @@ export const getOldState = () => {
   } catch (err) {}
   return {}; // Discard missing or corrupted old state.
 };
+
+export const viewWidth = () => window.innerWidth;
+export const viewHeight = () => window.innerHeight;
