@@ -21,5 +21,12 @@ export const getOldState = () => {
   return {}; // Discard missing or corrupted old state.
 };
 
+// Viewport dimensions.
 export const viewWidth = () => window.innerWidth;
 export const viewHeight = () => window.innerHeight;
+
+// Prevent default in JS only.
+// $FlowFixMe
+export const preventDefault = e => {
+  if (e) e.preventDefault();
+};

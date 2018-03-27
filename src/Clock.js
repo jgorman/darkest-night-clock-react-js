@@ -1,10 +1,11 @@
 // @flow
 import { Component } from "react";
+// $FlowFixMe
 import { connect } from "react-redux";
 
 import { formatTime, formatDate, formatColor } from "./utils";
 import { scaleColor, fontFit } from "./utils";
-import { viewWidth, viewHeight } from "./platform";
+import { viewWidth, viewHeight, preventDefault } from "./platform";
 import { ClockRender } from "./ClockRender";
 import type { ClockState } from "./appstate";
 
@@ -99,12 +100,14 @@ class Clock extends Component<ClockType> {
   };
 
   brightnessEnd = e => {
+    e.preventDefault();
     const touch = e.changedTouches[0];
     if (touch) {
       this.brightnessDiff(touch.identifier, touch.pageX);
     }
-    if (Math.abs(this.touchFirstX - this.touchLatestX) > 1.0) {
-      e.preventDefault(); // Swipe moved so don't process this as a click.
+    if (Math.abs(this.touchFirstX - this.touchLatestX) < 2.0) {
+      // If there was little movement, treat it like a click.
+      this.props.dispatch({ type: TOGGLE_CONTROLS });
     }
     this.touchId = undefined;
   };
@@ -137,22 +140,22 @@ class Clock extends Component<ClockType> {
   pressingTimeoutID = undefined;
 
   // Keep calling ourselves until endPress cancels the timer.
-  brighterPress = () => {
+  brighterPress = e => {
     this.endPress();
-    this.brighterClick();
     this.pressingTimeoutID = setTimeout(this.brighterPress, DIMMER_DWELL);
+    this.brighterClick();
   };
 
   // Keep calling ourselves until endPress cancels the timer.
-  dimmerPress = () => {
+  dimmerPress = e => {
     this.endPress();
-    this.dimmerClick();
     this.pressingTimeoutID = setTimeout(this.dimmerPress, DIMMER_DWELL);
+    this.dimmerClick();
   };
 
   // Cancel the timer and cancel the click.
   endPress = e => {
-    if (e) e.preventDefault(); // Cancel the click.
+    preventDefault(e); // Cancel the click in js.
     if (this.pressingTimeoutID) {
       clearTimeout(this.pressingTimeoutID); // Cancel the timer.
       this.pressingTimeoutID = undefined;
@@ -164,12 +167,14 @@ class Clock extends Component<ClockType> {
     const old_brightness = this.props.state.brightness;
     let new_brightness = old_brightness / DIMMER_RATIO;
     if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
-    if (new_brightness !== old_brightness) {
-      this.props.dispatch({ type: SET_BRIGHTNESS, brightness: new_brightness });
-    }
     let message = `${Math.round(new_brightness * 100)}%`;
-    if (new_brightness === old_brightness && this.props.state.userMessage) {
-      message = `${message} Darkest Night Clock ${VERSION}`;
+    if (new_brightness === old_brightness) {
+      this.endPress(); // Catch runaway brighterPress on ios.chrome.
+      if (this.props.state.userMessage) {
+        message = `${message} Darkest Night Clock ${VERSION}`;
+      }
+    } else {
+      this.props.dispatch({ type: SET_BRIGHTNESS, brightness: new_brightness });
     }
     this.showMessage(message);
   };
@@ -179,7 +184,9 @@ class Clock extends Component<ClockType> {
     const old_brightness = this.props.state.brightness;
     let new_brightness = old_brightness * DIMMER_RATIO;
     if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
-    if (new_brightness !== old_brightness) {
+    if (new_brightness === old_brightness) {
+      this.endPress(); // Catch runaway dimmerPress on ios.chrome.
+    } else {
       this.props.dispatch({ type: SET_BRIGHTNESS, brightness: new_brightness });
     }
     this.showMessage(`${Math.round(new_brightness * 100)}%`);

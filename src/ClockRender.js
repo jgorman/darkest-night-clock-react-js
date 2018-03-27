@@ -7,7 +7,6 @@ import { Colors } from "./Colors";
 import type { ClockState } from "./appstate";
 
 export const ClockRender = (clock: Object, state: ClockState, calc: Object) => {
-
   const viewport_style = {
     position: "absolute",
     margin: "auto",
@@ -53,7 +52,11 @@ export const ClockRender = (clock: Object, state: ClockState, calc: Object) => {
       >
         <div style={message_style}>{state.userMessage}</div>
         <div style={time_style}>{calc.time_s}</div>
-        {state.showDate ? <div style={date_style}>{calc.date_s}</div> : undefined}
+        {state.showDate ? (
+          <div style={date_style}>{calc.date_s}</div>
+        ) : (
+          undefined
+        )}
       </div>
 
       {state.showControls ? (
