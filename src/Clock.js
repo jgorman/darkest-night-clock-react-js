@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { formatTime, formatDate, formatColor } from "./utils";
 import { scaleColor, fontFit } from "./utils";
-import { viewWidth, viewHeight, preventDefault } from "./platform";
+import { viewWidth, viewHeight, isNative } from "./platform";
 import { ClockRender } from "./ClockRender";
 import type { ClockState } from "./appstate";
 
@@ -83,6 +83,7 @@ class Clock extends Component<ClockType> {
 
   brightnessStart = e => {
     e.preventDefault();
+    if (e.nativeEvent) e = e.nativeEvent;
     const touch = e.changedTouches[0];
     if (touch) {
       this.touchId = touch.identifier;
@@ -93,7 +94,8 @@ class Clock extends Component<ClockType> {
 
   brightnessMove = e => {
     e.preventDefault();
-    const touch = e.targetTouches[0];
+    if (e.nativeEvent) e = e.nativeEvent;
+    const touch = e.changedTouches[0];
     if (touch) {
       this.brightnessDiff(touch.identifier, touch.pageX);
     }
@@ -101,12 +103,13 @@ class Clock extends Component<ClockType> {
 
   brightnessEnd = e => {
     e.preventDefault();
+    if (e.nativeEvent) e = e.nativeEvent;
     const touch = e.changedTouches[0];
     if (touch) {
       this.brightnessDiff(touch.identifier, touch.pageX);
     }
     if (Math.abs(this.touchFirstX - this.touchLatestX) < 2.0) {
-      // If there was little movement, treat it like a click.
+      // If there was very little movement, treat it like a click.
       this.props.dispatch({ type: TOGGLE_CONTROLS });
     }
     this.touchId = undefined;
@@ -155,7 +158,7 @@ class Clock extends Component<ClockType> {
 
   // Cancel the timer and cancel the click.
   endPress = e => {
-    preventDefault(e); // Cancel the click in js.
+    if (e && !isNative) e.preventDefault(); // Avoid native warning.
     if (this.pressingTimeoutID) {
       clearTimeout(this.pressingTimeoutID); // Cancel the timer.
       this.pressingTimeoutID = undefined;
@@ -171,7 +174,7 @@ class Clock extends Component<ClockType> {
     if (new_brightness === old_brightness) {
       this.endPress(); // Catch runaway brighterPress on ios.chrome.
       if (this.props.state.userMessage) {
-        message = `${message} Darkest Night Clock ${VERSION}`;
+        message += ` Darkest Night Clock ${isNative ? "App" : ""} ${VERSION}`;
       }
     } else {
       this.props.dispatch({ type: SET_BRIGHTNESS, brightness: new_brightness });

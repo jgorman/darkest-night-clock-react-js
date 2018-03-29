@@ -4,6 +4,8 @@
 import type { ClockState } from "./appstate";
 import { SETTINGS_KEY } from "./appstate";
 
+export const isNative = false;
+
 // Save state in browser storage.
 export const saveState = (state: ClockState) => {
   const settings = JSON.stringify(state);
@@ -24,9 +26,3 @@ export const getOldState = () => {
 // Viewport dimensions.
 export const viewWidth = () => window.innerWidth;
 export const viewHeight = () => window.innerHeight;
-
-// Prevent default in JS only.
-// $FlowFixMe
-export const preventDefault = e => {
-  if (e) e.preventDefault();
-};
