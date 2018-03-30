@@ -3,7 +3,7 @@
 
 import { saveState } from "./platform";
 
-export const VERSION = "1.0.4a";
+export const VERSION = "1.0.4";
 export const MIN_BRIGHTNESS = 0.02;
 export const MAX_BRIGHTNESS = 1.0;
 export const DEFAULT_COLOR = 0x6666ff;

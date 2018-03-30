@@ -77,12 +77,13 @@ class Clock extends Component<ClockType> {
    * These functions handle brightness swiping on the time & date display.
    */
 
-  touchId = undefined;
-  touchFirstX = 0;
-  touchLatestX = 0;
+  touchInterface = false; // If we are getting touch events we disable clicks.
+  touchId = undefined; // Are we still in an ongoing touch stream?
+  touchFirstX = 0; // First x in this touch stream.
+  touchLatestX = 0; // Latest or last x in this touch stream.
 
   brightnessStart = e => {
-    e.preventDefault();
+    this.touchInterface = true;
     if (e.nativeEvent) e = e.nativeEvent;
     const touch = e.changedTouches[0];
     if (touch) {
@@ -93,7 +94,7 @@ class Clock extends Component<ClockType> {
   };
 
   brightnessMove = e => {
-    e.preventDefault();
+    this.touchInterface = true;
     if (e.nativeEvent) e = e.nativeEvent;
     const touch = e.changedTouches[0];
     if (touch) {
@@ -102,7 +103,7 @@ class Clock extends Component<ClockType> {
   };
 
   brightnessEnd = e => {
-    e.preventDefault();
+    this.touchInterface = true;
     if (e.nativeEvent) e = e.nativeEvent;
     const touch = e.changedTouches[0];
     if (touch) {
@@ -110,7 +111,7 @@ class Clock extends Component<ClockType> {
     }
     if (Math.abs(this.touchFirstX - this.touchLatestX) < 2.0) {
       // If there was very little movement, treat it like a click.
-      this.props.dispatch({ type: TOGGLE_CONTROLS });
+      this.showControlsClick();
     }
     this.touchId = undefined;
   };
@@ -144,6 +145,7 @@ class Clock extends Component<ClockType> {
 
   // Keep calling ourselves until endPress cancels the timer.
   brighterPress = e => {
+    this.touchInterface = true;
     this.endPress();
     this.pressingTimeoutID = setTimeout(this.brighterPress, DIMMER_DWELL);
     this.brighterClick();
@@ -151,6 +153,7 @@ class Clock extends Component<ClockType> {
 
   // Keep calling ourselves until endPress cancels the timer.
   dimmerPress = e => {
+    this.touchInterface = true;
     this.endPress();
     this.pressingTimeoutID = setTimeout(this.dimmerPress, DIMMER_DWELL);
     this.dimmerClick();
@@ -158,7 +161,7 @@ class Clock extends Component<ClockType> {
 
   // Cancel the timer and cancel the click.
   endPress = e => {
-    if (e && !isNative) e.preventDefault(); // Avoid native warning.
+    if (e) this.touchInterface = true;
     if (this.pressingTimeoutID) {
       clearTimeout(this.pressingTimeoutID); // Cancel the timer.
       this.pressingTimeoutID = undefined;
@@ -166,7 +169,8 @@ class Clock extends Component<ClockType> {
   };
 
   // One tick brighter.
-  brighterClick = () => {
+  brighterClick = e => {
+    if (e && this.touchInterface) return;
     const old_brightness = this.props.state.brightness;
     let new_brightness = old_brightness / DIMMER_RATIO;
     if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
@@ -183,7 +187,8 @@ class Clock extends Component<ClockType> {
   };
 
   // One tick dimmer.
-  dimmerClick = () => {
+  dimmerClick = e => {
+    if (e && this.touchInterface) return;
     const old_brightness = this.props.state.brightness;
     let new_brightness = old_brightness * DIMMER_RATIO;
     if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
@@ -195,7 +200,8 @@ class Clock extends Component<ClockType> {
     this.showMessage(`${Math.round(new_brightness * 100)}%`);
   };
 
-  showControlsClick = () => {
+  showControlsClick = e => {
+    if (e && this.touchInterface) return;
     this.props.dispatch({ type: TOGGLE_CONTROLS });
   };
 
