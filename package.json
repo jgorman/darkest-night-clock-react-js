@@ -15,5 +15,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    "> 1%"
+  ],
+  "devDependencies": {
+    "eslint-plugin-compat": "^2.2.0"
   }
 }
