@@ -31,14 +31,12 @@ export const ClockRender = (clock: Object, state: ClockState, calc: Object) => {
 
   const time_style = {
     color: calc.color,
-    fontSize: calc.time_h + "px",
-    lineHeight: 0.9
+    fontSize: calc.time_h + "px"
   };
 
   const date_style = {
     color: calc.color,
-    fontSize: calc.date_h + "px",
-    lineHeight: 0.9
+    fontSize: calc.date_h + "px"
   };
 
   return (
