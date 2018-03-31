@@ -83,7 +83,6 @@ class Clock extends Component<ClockType> {
   touchLatestX = 0; // Latest or last x in this touch stream.
 
   brightnessStart = e => {
-    this.touchInterface = true;
     if (e.nativeEvent) e = e.nativeEvent;
     const touch = e.changedTouches[0];
     if (touch) {
@@ -94,7 +93,6 @@ class Clock extends Component<ClockType> {
   };
 
   brightnessMove = e => {
-    this.touchInterface = true;
     if (e.nativeEvent) e = e.nativeEvent;
     const touch = e.changedTouches[0];
     if (touch) {
@@ -103,7 +101,7 @@ class Clock extends Component<ClockType> {
   };
 
   brightnessEnd = e => {
-    this.touchInterface = true;
+    e.preventDefault(); // Prevent text highlighting in phone browsers.
     if (e.nativeEvent) e = e.nativeEvent;
     const touch = e.changedTouches[0];
     if (touch) {
@@ -111,8 +109,12 @@ class Clock extends Component<ClockType> {
     }
     if (Math.abs(this.touchFirstX - this.touchLatestX) < 2.0) {
       // If there was very little movement, treat it like a click.
+      if (!this.touchInterface) {
+        this.showMessage("Swipe left to dim.");
+      }
       this.showControlsClick();
     }
+    this.touchInterface = true;
     this.touchId = undefined;
   };
 
@@ -146,37 +148,52 @@ class Clock extends Component<ClockType> {
   // Keep calling ourselves until endPress cancels the timer.
   brighterPress = e => {
     this.touchInterface = true;
-    this.endPress();
+    this.endTimer();
     this.pressingTimeoutID = setTimeout(this.brighterPress, DIMMER_DWELL);
-    this.brighterClick();
+    this.brighterTick();
   };
 
   // Keep calling ourselves until endPress cancels the timer.
   dimmerPress = e => {
     this.touchInterface = true;
-    this.endPress();
+    this.endTimer();
     this.pressingTimeoutID = setTimeout(this.dimmerPress, DIMMER_DWELL);
-    this.dimmerClick();
+    this.dimmerTick();
   };
 
-  // Cancel the timer and cancel the click.
+  // Cancel the timer.
   endPress = e => {
-    if (e) this.touchInterface = true;
+    this.endTimer();
+  };
+
+  // Cancel the timer.
+  endTimer = () => {
     if (this.pressingTimeoutID) {
-      clearTimeout(this.pressingTimeoutID); // Cancel the timer.
+      clearTimeout(this.pressingTimeoutID);
       this.pressingTimeoutID = undefined;
     }
   };
 
-  // One tick brighter.
+  // If we have a touch interface we use that and ignore the click.
   brighterClick = e => {
-    if (e && this.touchInterface) return;
+    if (this.touchInterface) return;
+    this.brighterTick();
+  };
+
+  // If we have a touch interface we use that and ignore the click.
+  dimmerClick = e => {
+    if (this.touchInterface) return;
+    this.dimmerTick();
+  };
+
+  // One tick brighter.
+  brighterTick = () => {
     const old_brightness = this.props.state.brightness;
     let new_brightness = old_brightness / DIMMER_RATIO;
     if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
     let message = `${Math.round(new_brightness * 100)}%`;
     if (new_brightness === old_brightness) {
-      this.endPress(); // Catch runaway brighterPress on ios.chrome.
+      this.endTimer(); // Catch runaway brighterPress on ios.chrome.
       if (this.props.state.userMessage) {
         message += ` Darkest Night Clock ${isNative ? "App" : ""} ${VERSION}`;
       }
@@ -187,13 +204,12 @@ class Clock extends Component<ClockType> {
   };
 
   // One tick dimmer.
-  dimmerClick = e => {
-    if (e && this.touchInterface) return;
+  dimmerTick = () => {
     const old_brightness = this.props.state.brightness;
     let new_brightness = old_brightness * DIMMER_RATIO;
     if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
     if (new_brightness === old_brightness) {
-      this.endPress(); // Catch runaway dimmerPress on ios.chrome.
+      this.endTimer(); // Catch runaway dimmerPress on ios.chrome.
     } else {
       this.props.dispatch({ type: SET_BRIGHTNESS, brightness: new_brightness });
     }
@@ -252,7 +268,7 @@ class Clock extends Component<ClockType> {
 
     // Scale for vertical fit if necessary, leaving room for padding.
     let total_h = calc.time_h + calc.date_h + calc.control_h + calc.message_h;
-    let target_h = height * 0.8;
+    let target_h = height * 0.9;
     if (total_h > target_h) {
       const ratio = target_h / total_h;
       calc.time_h *= ratio;
