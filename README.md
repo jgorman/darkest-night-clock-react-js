@@ -8,7 +8,8 @@ Studies have shown that ambient light at night can reduce
 sleep quality and can also lead to nearsightedness due to
 the eyes constantly attempting to focus while sleeping.
 
-Run the __[Live demo](https://johngorman.io/darkest-night-clock/run)__
+Try it for yourself and learn more at the
+[Darkest Night Clock Project Page](https://johngorman.io/darkest-night-clock/).
 
 ## Controls
 
