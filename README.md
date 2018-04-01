@@ -16,7 +16,7 @@ Try it for yourself and learn more at the
 - Adjust clock brightness by swiping left and right.
 - Toggle control bar visibility by clicking on the time display.
 - The plus (+) and minus (-) buttons also control the brightness.
-- The color (<span style="color: gold">*</span>) button
+- The color (*) button
   brings up the color selections.
 - The seconds (:) button toggles seconds display.
 - The date (/) button toggles date display.
