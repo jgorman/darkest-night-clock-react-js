@@ -1,34 +1,34 @@
 // @flow
-import React from "react";
-import PropTypes from "prop-types";
+import React from "react"
+import PropTypes from "prop-types"
 
-import plusCircle from "./images/plus-circle.svg";
-import minusCircle from "./images/minus-circle.svg";
-import colors from "./images/colors.svg";
-import seconds from "./images/seconds.svg";
-import showDate from "./images/show-date.svg";
+import plusCircle from "./images/plus-circle.svg"
+import minusCircle from "./images/minus-circle.svg"
+import colors from "./images/colors.svg"
+import seconds from "./images/seconds.svg"
+import showDate from "./images/show-date.svg"
 
 type ControlsType = {
   size: number,
-  clock: Object
-};
+  clock: Object,
+}
 
 export const Controls = (props: ControlsType) => {
-  const size = props.size;
-  const clock = props.clock;
+  const size = props.size
+  const clock = props.clock
 
   const control = {
     height: size + "px",
     width: size + "px",
-    margin: "5px"
-  };
+    margin: "5px",
+  }
   return (
     <div>
       <img
         src={minusCircle}
         style={control}
         alt="Dimmer"
-        onContextMenu={e => e.preventDefault()}
+        onContextMenu={(e) => e.preventDefault()}
         onTouchStart={clock.dimmerPress}
         onTouchEnd={clock.endPress}
         onTouchCancel={clock.endPress}
@@ -39,7 +39,7 @@ export const Controls = (props: ControlsType) => {
         src={plusCircle}
         style={control}
         alt="Brighter"
-        onContextMenu={e => e.preventDefault()}
+        onContextMenu={(e) => e.preventDefault()}
         onTouchStart={clock.brighterPress}
         onTouchEnd={clock.endPress}
         onTouchCancel={clock.endPress}
@@ -67,10 +67,10 @@ export const Controls = (props: ControlsType) => {
         alt="Show date"
       />
     </div>
-  );
-};
+  )
+}
 
 Controls.propTypes = {
   size: PropTypes.number.isRequired,
-  clock: PropTypes.object.isRequired
-};
+  clock: PropTypes.object.isRequired,
+}

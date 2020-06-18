@@ -1,10 +1,10 @@
 // @flow
-import React from "react";
+import React from "react"
 
-import { Controls } from "./Controls";
-import { Colors } from "./Colors";
+import { Controls } from "./Controls"
+import { Colors } from "./Colors"
 
-import type { ClockState } from "./appstate";
+import type { ClockState } from "./appstate"
 
 export const ClockRender = (clock: Object, state: ClockState, calc: Object) => {
   const viewport_style = {
@@ -20,24 +20,24 @@ export const ClockRender = (clock: Object, state: ClockState, calc: Object) => {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    textAlign: "center"
-  };
+    textAlign: "center",
+  }
 
   const message_style = {
     color: "white",
     fontSize: calc.message_h + "px",
-    height: calc.message_h + "px"
-  };
+    height: calc.message_h + "px",
+  }
 
   const time_style = {
     color: calc.color,
-    fontSize: calc.time_h + "px"
-  };
+    fontSize: calc.time_h + "px",
+  }
 
   const date_style = {
     color: calc.color,
-    fontSize: calc.date_h + "px"
-  };
+    fontSize: calc.date_h + "px",
+  }
 
   return (
     <div style={viewport_style}>
@@ -47,7 +47,7 @@ export const ClockRender = (clock: Object, state: ClockState, calc: Object) => {
         onTouchEnd={clock.brightnessEnd}
         onTouchCancel={clock.brightnessEnd}
         onClick={clock.showControlsClick}
-        onContextMenu={e => e.preventDefault()}
+        onContextMenu={(e) => e.preventDefault()}
       >
         <div style={time_style}>{calc.time_s}</div>
 
@@ -55,9 +55,7 @@ export const ClockRender = (clock: Object, state: ClockState, calc: Object) => {
 
         {state.showDate ? (
           <div style={date_style}>{calc.date_s}</div>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
       </div>
 
       {state.showControls ? (
@@ -66,9 +64,7 @@ export const ClockRender = (clock: Object, state: ClockState, calc: Object) => {
         ) : (
           <Controls size={calc.control_h} clock={clock} />
         )
-      ) : (
-        undefined
-      )}
+      ) : undefined}
     </div>
-  );
-};
+  )
+}
