@@ -15,6 +15,7 @@ import {
   DIMMER_RATIO,
   DIMMER_DWELL,
   MESSAGE_DWELL,
+  SLIDING,
   VERSION
 } from "./appstate";
 
@@ -107,11 +108,9 @@ class Clock extends Component<ClockType> {
     if (touch) {
       this.brightnessDiff(touch.identifier, touch.pageX);
     }
-    if (Math.abs(this.touchFirstX - this.touchLatestX) < 2.0) {
+    if (Math.abs(this.touchFirstX - this.touchLatestX) < SLIDING) {
       // If there was very little movement, treat it like a click.
-      if (!this.touchInterface) {
-        this.showMessage("Swipe left to dim.");
-      }
+      this.showMessage("Swipe left to dim.");
       this.showControlsClick();
     }
     this.touchInterface = true;
@@ -126,14 +125,19 @@ class Clock extends Component<ClockType> {
       let new_brightness = old_brightness + 2 * diff / width;
       if (new_brightness < MIN_BRIGHTNESS) new_brightness = MIN_BRIGHTNESS;
       if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
-      if (new_brightness !== old_brightness) {
+
+      let message = `${Math.round(new_brightness * 100)}%`;
+      if (new_brightness === old_brightness && diff > 0) {
+        message += ` Darkest Night Clock ${isNative ? "App" : ""} ${VERSION}`;
+      } else {
         this.props.dispatch({
           type: SET_BRIGHTNESS,
           brightness: new_brightness
         });
       }
+
       this.touchLatestX = x;
-      this.showMessage(`${Math.round(new_brightness * 100)}%`);
+      this.showMessage(message);
     }
   };
 
@@ -191,12 +195,11 @@ class Clock extends Component<ClockType> {
     const old_brightness = this.props.state.brightness;
     let new_brightness = old_brightness / DIMMER_RATIO;
     if (new_brightness > MAX_BRIGHTNESS) new_brightness = MAX_BRIGHTNESS;
+
     let message = `${Math.round(new_brightness * 100)}%`;
     if (new_brightness === old_brightness) {
       this.endTimer(); // Catch runaway brighterPress on ios.chrome.
-      if (this.props.state.userMessage) {
-        message += ` Darkest Night Clock ${isNative ? "App" : ""} ${VERSION}`;
-      }
+      message += ` Darkest Night Clock ${isNative ? "App" : ""} ${VERSION}`;
     } else {
       this.props.dispatch({ type: SET_BRIGHTNESS, brightness: new_brightness });
     }
@@ -264,7 +267,7 @@ class Clock extends Component<ClockType> {
     }
 
     // Calculate the message height.
-    calc.message_h = (calc.time_h + calc.date_h + calc.control_h) * 0.08;
+    calc.message_h = calc.time_h * 0.12;
 
     // Scale for vertical fit if necessary, leaving room for padding.
     let total_h = calc.time_h + calc.date_h + calc.control_h + calc.message_h;

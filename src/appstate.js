@@ -9,7 +9,8 @@ export const MAX_BRIGHTNESS = 1.0;
 export const DEFAULT_COLOR = 0x6666ff;
 export const DIMMER_RATIO = 0.8;
 export const DIMMER_DWELL = 150;
-export const MESSAGE_DWELL = 1000;
+export const MESSAGE_DWELL = 3000;
+export const SLIDING = 2.0;
 export const SETTINGS_KEY = "clockSettings";
 
 export const TOGGLE_SECONDS = "TOGGLE_SECONDS";
