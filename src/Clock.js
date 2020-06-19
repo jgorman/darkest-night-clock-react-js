@@ -74,6 +74,9 @@ class Clock extends Component<ClockType> {
     })
   }
 
+  show_version = () =>
+    ` Darkest Night Clock ${isNative ? "App" : ""} ${VERSION}-1`
+
   /*
    * These functions handle brightness swiping on the time & date display.
    */
@@ -128,7 +131,7 @@ class Clock extends Component<ClockType> {
 
       let message = `${Math.round(new_brightness * 100)}%`
       if (new_brightness === old_brightness && diff > 0) {
-        message += ` Darkest Night Clock ${isNative ? "App" : ""} ${VERSION}`
+        message += this.show_version()
       } else {
         this.props.dispatch({
           type: SET_BRIGHTNESS,
@@ -199,7 +202,7 @@ class Clock extends Component<ClockType> {
     let message = `${Math.round(new_brightness * 100)}%`
     if (new_brightness === old_brightness) {
       this.endTimer() // Catch runaway brighterPress on ios.chrome.
-      message += ` Darkest Night Clock ${isNative ? "App" : ""} ${VERSION}`
+      message += this.show_version()
     } else {
       this.props.dispatch({ type: SET_BRIGHTNESS, brightness: new_brightness })
     }
