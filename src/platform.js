@@ -25,5 +25,11 @@ export const getOldState = () => {
 }
 
 // Viewport dimensions.
-export const viewWidth = () => window.innerWidth
-export const viewHeight = () => window.innerHeight
+export const getViewPort = () => {
+  const clock = document.getElementById("clock-face")
+  if (clock) {
+    return [clock.clientWidth, clock.clientHeight]
+  } else {
+    return [window.innerWidth, window.innerHeight]
+  }
+}

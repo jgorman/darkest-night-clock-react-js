@@ -9,7 +9,7 @@ import {
   scaleColor,
   fontFit,
 } from "./utils"
-import { viewWidth, viewHeight, isNative } from "./platform"
+import { getViewPort, isNative } from "./platform"
 import { initialState, reducer } from "./appstate"
 import { ClockRender } from "./ClockRender"
 
@@ -23,10 +23,9 @@ import {
   VERSION,
 } from "./appstate"
 
+let state, dispatch
+let viewPort;
 const build = "-1"
-
-let state
-let dispatch
 
 // Phone touch handling.
 let touchInterface = false // If we are getting touch events we disable clicks.
@@ -39,10 +38,11 @@ const Clock = () => {
   ;[state, dispatch] = useReducer(reducer, undefined, initialState)
 
   useEffect(() => {
-    const timerID = setInterval(() => dispatch({ type: "clock_tick" }), 2000)
+    const timerID = setInterval(() => dispatch({ type: "clock_tick" }), 1000)
     return () => clearInterval(timerID)
   }, [])
 
+  viewPort = getViewPort()
   const geo = geometry(state)
 
   return ClockRender(clickme, state, geo)
@@ -53,10 +53,8 @@ const geometry = (state) => {
   const geo = {}
   geo.color = formatColor(scaleColor(state.color, state.brightness))
 
-  const width = viewWidth()
-  const height = viewHeight()
-
   // Calculate the time height.
+  const [width, height] = viewPort
   geo.time_s = formatTime(state.date, state.showSeconds)
   geo.time_h = fontFit(geo.time_s, width)
 
@@ -227,10 +225,9 @@ clickme.brightnessEnd = brightnessEnd
 
 const brightnessDiff = (id, x) => {
   if (id !== touchId || touchLatestX === x) return
-  const width = viewWidth()
   const diff = x - touchLatestX
   const old_brightness = state.brightness
-  let brightness = old_brightness + (2 * diff) / width
+  let brightness = old_brightness + (2 * diff) / viewPort[0]
   if (brightness < MIN_BRIGHTNESS) brightness = MIN_BRIGHTNESS
   if (brightness > MAX_BRIGHTNESS) brightness = MAX_BRIGHTNESS
 

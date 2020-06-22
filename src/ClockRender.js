@@ -40,7 +40,7 @@ export const ClockRender = (clock: Object, state: ClockState, calc: Object) => {
   }
 
   return (
-    <div style={viewport_style}>
+    <div id="clock-face" style={viewport_style}>
       <div
         onTouchStart={clock.brightnessStart}
         onTouchMove={clock.brightnessMove}
