@@ -1,51 +1,51 @@
 // @flow
 /* Clock App State Management. */
 
-import { saveState } from "./platform"
+import { getOldState, saveState } from "./platform"
+
+export const COLOR_RED = 0xff0000
+export const COLOR_GREEN = 0x00bb00
+export const COLOR_BLUE = 0x6666ff
+export const COLOR_YELLOW = 0xffd700
+export const COLOR_WHITE = 0xffffff
 
 export const VERSION = "1.0.7"
 export const MIN_BRIGHTNESS = 0.02
 export const MAX_BRIGHTNESS = 1.0
-export const DEFAULT_COLOR = 0x6666ff
+export const DEFAULT_COLOR = COLOR_BLUE
 export const DIMMER_RATIO = 0.8
 export const DIMMER_DWELL = 150
 export const MESSAGE_DWELL = 3000
-export const SLIDING = 2.0
-export const SETTINGS_KEY = "clockSettings"
-
-export const TOGGLE_SECONDS = "TOGGLE_SECONDS"
-export const TOGGLE_DATE = "TOGGLE_DATE"
-export const TOGGLE_CONTROLS = "TOGGLE_CONTROLS"
-export const TOGGLE_COLORS = "TOGGLE_COLORS"
-export const SET_DATE = "SET_DATE"
-export const SET_BRIGHTNESS = "SET_BRIGHTNESS"
-export const SET_COLOR = "SET_COLOR"
-export const SHOW_MESSAGE = "SHOW_MESSAGE"
-export const REDUX_STORAGE_LOAD = "REDUX_STORAGE_LOAD"
-export const REDUX_STORAGE_SAVE = "REDUX_STORAGE_SAVE"
+export const MIN_SLIDING = 2.0
 
 export type ClockState = {
   date: Date,
   brightness: number,
   color: number,
-  showSeconds: boolean,
-  showDate: boolean,
+  showSeconds?: boolean,
+  showDate?: boolean,
   showControls?: boolean,
   showColors?: boolean,
-  unsavedState?: boolean,
-  userMessage?: string,
+  message?: string,
 }
 
-// App startup state.
-const initialState = (): ClockState => {
+// Default startup state.
+const defaultState = (): ClockState => {
   const state = {
     date: new Date(),
     brightness: MAX_BRIGHTNESS,
     color: DEFAULT_COLOR,
-    showSeconds: false,
-    showDate: false,
   }
   return state
+}
+
+// Read saved state.
+export const initialState = () => {
+  return mergeOldState(defaultState(), getOldState())
+}
+
+export const keepState = (state) => {
+  saveState(mergeOldState({}, state))
 }
 
 // Merge saved state, being careful to not crash or insert unacceptable values.
@@ -70,11 +70,12 @@ const mergeOldState = (
       news.color = oc
     }
 
-    if (old.showSeconds === true || old.showSeconds === false) {
-      news.showSeconds = old.showSeconds
+    if (old.showSeconds) {
+      news.showSeconds = true
     }
-    if (old.showDate === true || old.showDate === false) {
-      news.showDate = old.showDate
+
+    if (old.showDate) {
+      news.showDate = true
     }
   } catch (err) {
     return state // Discard corrupted old state.
@@ -88,57 +89,47 @@ type ActionType = {
   date: Date,
   brightness: number,
   color: number,
-  oldState: ClockState,
-  userMessage: string,
+  message: string,
 }
 
-export const reducer = (
-  state: ClockState = initialState(),
-  action: ActionType
-) => {
+export const reducer = (state, action) => {
   switch (action.type) {
-    case TOGGLE_SECONDS:
-      return { ...state, showSeconds: !state.showSeconds, unsavedState: true }
-    case TOGGLE_DATE:
-      return { ...state, showDate: !state.showDate, unsavedState: true }
+    case "clock_tick":
+      return { ...state, date: new Date() }
 
-    case TOGGLE_CONTROLS:
-      return {
-        ...state,
-        showControls: !state.showControls,
-        showColors: false,
-      }
-    case TOGGLE_COLORS:
+    case "toggle_seconds":
+      state = { ...state, showSeconds: !state.showSeconds }
+      keepState(state)
+      return state
+
+    case "toggle_date":
+      state = { ...state, showDate: !state.showDate }
+      keepState(state)
+      return state
+
+    case "toggle_controls":
+      return { ...state, showControls: !state.showControls, showColors: false }
+
+    case "toggle_colors":
       return { ...state, showColors: !state.showColors }
 
-    case SET_DATE:
-      return { ...state, date: action.date }
-    case SET_BRIGHTNESS:
-      return {
-        ...state,
-        brightness: action.brightness,
-        unsavedState: true,
-      }
-    case SET_COLOR:
-      return {
+    case "set_brightness":
+      state = { ...state, brightness: action.brightness }
+      keepState(state)
+      return state
+
+    case "set_color":
+      state = {
         ...state,
         color: action.color || DEFAULT_COLOR,
         brightness: MAX_BRIGHTNESS,
         showColors: false,
-        unsavedState: true,
       }
+      keepState(state)
+      return state
 
-    case SHOW_MESSAGE:
-      return {
-        ...state,
-        userMessage: action.userMessage,
-      }
-
-    case REDUX_STORAGE_LOAD:
-      return mergeOldState(state, action.oldState)
-    case REDUX_STORAGE_SAVE:
-      saveState(mergeOldState({}, state))
-      return { ...state, unsavedState: false }
+    case "show_message":
+      return { ...state, message: action.message }
 
     default:
       return state

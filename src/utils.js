@@ -1,5 +1,5 @@
 // @flow
-/* Utilities. */
+/* Utility functions. */
 
 export const zeropad = (num: number | string, len: number): string => {
   const str = num.toString()

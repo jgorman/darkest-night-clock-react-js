@@ -1,8 +1,9 @@
 // @flow
-/* React.js utilities. */
+/* Platform specific functions. */
 
 import type { ClockState } from "./appstate"
-const SETTINGS_KEY = "clockSettings" // Avoid an import loop.
+
+const SETTINGS_KEY = "clockSettings"
 
 export const isNative = false
 

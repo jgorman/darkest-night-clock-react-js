@@ -51,7 +51,7 @@ export const ClockRender = (clock: Object, state: ClockState, calc: Object) => {
       >
         <div style={time_style}>{calc.time_s}</div>
 
-        <div style={message_style}>{state.userMessage}</div>
+        <div style={message_style}>{state.message}</div>
 
         {state.showDate ? (
           <div style={date_style}>{calc.date_s}</div>

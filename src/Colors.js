@@ -2,6 +2,13 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { formatColor } from "./utils"
+import {
+  COLOR_RED,
+  COLOR_GREEN,
+  COLOR_BLUE,
+  COLOR_YELLOW,
+  COLOR_WHITE,
+} from "./appstate"
 
 type ColorType = {
   color: number,
@@ -45,11 +52,11 @@ export const Colors = (props: ColorsType) => {
   const click = props.click
   return (
     <div>
-      <Color size={size} click={click} color={0xff0000} />
-      <Color size={size} click={click} color={0x00bb00} />
-      <Color size={size} click={click} color={0x6666ff} />
-      <Color size={size} click={click} color={0xffd700} />
-      <Color size={size} click={click} color={0xffffff} />
+      <Color size={size} click={click} color={COLOR_RED} />
+      <Color size={size} click={click} color={COLOR_GREEN} />
+      <Color size={size} click={click} color={COLOR_BLUE} />
+      <Color size={size} click={click} color={COLOR_YELLOW} />
+      <Color size={size} click={click} color={COLOR_WHITE} />
     </div>
   )
 }
