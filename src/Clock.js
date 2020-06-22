@@ -25,7 +25,7 @@ import {
 
 let state, dispatch
 let viewPort;
-const build = "-1"
+const build = "-2"
 
 // Phone touch handling.
 let touchInterface = false // If we are getting touch events we disable clicks.

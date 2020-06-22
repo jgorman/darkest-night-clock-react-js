@@ -1,5 +1,6 @@
 {
   "name": "darkest-night-clock",
+  "homepage": "https://johngorman.io/darkest-night-clock/run/",
   "version": "1.0.7",
   "private": true,
   "dependencies": {
