@@ -35,6 +35,7 @@ const defaultState = (): ClockState => {
     date: new Date(),
     brightness: MAX_BRIGHTNESS,
     color: DEFAULT_COLOR,
+    showSeconds: true,
   }
   return state
 }

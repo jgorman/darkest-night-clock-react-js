@@ -21,6 +21,9 @@ export const ClockRender = (clock: Object, state: ClockState, calc: Object) => {
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
+    backgroundColor: "black",
+    fontFamily: "sans-serif",
+    fontWeight: "100",
   }
 
   const message_style = {
