@@ -1,16 +1,9 @@
 /* Clock component. */
 
-import { useEffect, useReducer } from "react"
+import { useReducer, useEffect } from "react"
 
-import {
-  formatTime,
-  formatDate,
-  formatColor,
-  scaleColor,
-  fontFit,
-} from "./utils"
-import { getViewPort, isNative } from "./platform"
-import { initialState, reducer } from "./appstate"
+import { bootState, bootClock, isNative, getViewPort } from "./platform"
+import { reducer } from "./reducer"
 import { ClockRender } from "./ClockRender"
 
 import {
@@ -24,8 +17,7 @@ import {
 } from "./appstate"
 
 let state, dispatch
-let viewPort;
-const build = "-5"
+const build = "-3"
 
 // Phone touch handling.
 let touchInterface = false // If we are getting touch events we disable clicks.
@@ -35,62 +27,23 @@ let touchLatestX = 0 // Latest or last x in this touch stream.
 let pressingTimeoutID = undefined // Hold and press repeat action timer.
 
 const Clock = () => {
-  ;[state, dispatch] = useReducer(reducer, undefined, initialState)
+  ;[state, dispatch] = useReducer(reducer, undefined, bootState)
 
   useEffect(() => {
+    bootClock(dispatch)
     const timerID = setInterval(() => dispatch({ type: "clock_tick" }), 1000)
     return () => clearInterval(timerID)
   }, [])
 
-  viewPort = getViewPort()
-  const geo = geometry(state)
-
-  return ClockRender(clickme, state, geo)
-}
-
-// Calculate the clock geometry.
-const geometry = (state) => {
-  const geo = {}
-  geo.color = formatColor(scaleColor(state.color, state.brightness))
-
-  // Calculate the time height.
-  const [width, height] = viewPort
-  geo.time_s = formatTime(state.date, state.showSeconds)
-  geo.time_h = fontFit(geo.time_s, width)
-
-  // Calculate the optional date height.
-  geo.date_s = undefined
-  geo.date_h = 0
-  if (state.showDate) {
-    geo.date_s = formatDate(state.date)
-    geo.date_h = fontFit(geo.date_s, width, 0.6)
+  if (isNative && !state.color) {
+    return null // Native waits for async initial state reading.
   }
 
-  // Calculate the optional controls height.
-  geo.control_h = 0
-  if (state.showControls) {
-    geo.control_h = fontFit("Control Icons", width, 0.8)
-  }
-
-  // Calculate the message height.
-  geo.message_h = geo.time_h * 0.12
-
-  // Scale for vertical fit if necessary, leaving room for padding.
-  let total_h = geo.time_h + geo.date_h + geo.control_h + geo.message_h
-  let target_h = height * 0.9
-  if (total_h > target_h) {
-    const ratio = target_h / total_h
-    geo.time_h *= ratio
-    geo.date_h *= ratio
-    geo.control_h *= ratio
-    geo.message_h *= ratio
-  }
-
-  return geo
+  return ClockRender(state, actions)
 }
 
 // User actions.
-const clickme = {
+const actions = {
   // Control actions.
 
   showControlsClick: () => dispatch({ type: "toggle_controls" }),
@@ -114,6 +67,8 @@ const clickme = {
     if (touchInterface) return // Touch interface wins.
     brighterTick()
   },
+
+  redisplay: () => dispatch({ type: "redisplay" }),
 }
 
 /*
@@ -131,7 +86,7 @@ const dimmerPress = (e) => {
   pressingTimeoutID = setTimeout(dimmerPress, DIMMER_DWELL)
   dimmerTick()
 }
-clickme.dimmerPress = dimmerPress
+actions.dimmerPress = dimmerPress
 
 // Keep calling ourselves until endPress cancels the timer.
 const brighterPress = (e) => {
@@ -141,7 +96,7 @@ const brighterPress = (e) => {
   pressingTimeoutID = setTimeout(brighterPress, DIMMER_DWELL)
   brighterTick()
 }
-clickme.brighterPress = brighterPress
+actions.brighterPress = brighterPress
 
 // Cancel the pressing timer.
 const endPress = () => {
@@ -150,7 +105,7 @@ const endPress = () => {
     pressingTimeoutID = undefined
   }
 }
-clickme.endPress = endPress
+actions.endPress = endPress
 
 // One tick dimmer.
 const dimmerTick = () => {
@@ -195,7 +150,7 @@ const brightnessStart = (e) => {
     touchLatestX = touch.pageX
   }
 }
-clickme.brightnessStart = brightnessStart
+actions.brightnessStart = brightnessStart
 
 const brightnessMove = (e) => {
   if (e.nativeEvent) e = e.nativeEvent
@@ -204,7 +159,7 @@ const brightnessMove = (e) => {
     brightnessDiff(touch.identifier, touch.pageX)
   }
 }
-clickme.brightnessMove = brightnessMove
+actions.brightnessMove = brightnessMove
 
 const brightnessEnd = (e) => {
   e.preventDefault() // Prevent text highlighting in phone browsers.
@@ -216,17 +171,18 @@ const brightnessEnd = (e) => {
   if (Math.abs(touchFirstX - touchLatestX) < MIN_SLIDING) {
     // If there was very little movement, treat it like a click.
     showMessage("Swipe left to dim.")
-    clickme.showControlsClick()
+    actions.showControlsClick()
   }
   touchInterface = true
   touchId = undefined
 }
-clickme.brightnessEnd = brightnessEnd
+actions.brightnessEnd = brightnessEnd
 
 const brightnessDiff = (id, x) => {
   if (id !== touchId || touchLatestX === x) return
   const diff = x - touchLatestX
   const old_brightness = state.brightness
+  const viewPort = getViewPort()
   let brightness = old_brightness + (2 * diff) / viewPort[0]
   if (brightness < MIN_BRIGHTNESS) brightness = MIN_BRIGHTNESS
   if (brightness > MAX_BRIGHTNESS) brightness = MAX_BRIGHTNESS

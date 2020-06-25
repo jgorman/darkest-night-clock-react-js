@@ -1,6 +1,5 @@
-// @flow
 import React from "react"
-import PropTypes from "prop-types"
+
 import { formatColor } from "./utils"
 import {
   COLOR_RED,
@@ -10,13 +9,7 @@ import {
   COLOR_WHITE,
 } from "./appstate"
 
-type ColorType = {
-  color: number,
-  size: number,
-  click: Function,
-}
-
-const Color = (props: ColorType) => {
+const Color = (props) => {
   const color = formatColor(props.color)
   const size = props.size
 
@@ -36,18 +29,7 @@ const Color = (props: ColorType) => {
   return <div style={paintChip} onClick={() => props.click(props.color)} />
 }
 
-Color.propTypes = {
-  color: PropTypes.number.isRequired,
-  size: PropTypes.number.isRequired,
-  click: PropTypes.func.isRequired,
-}
-
-type ColorsType = {
-  size: number,
-  click: Function,
-}
-
-export const Colors = (props: ColorsType) => {
+export const Colors = (props) => {
   const size = props.size
   const click = props.click
   return (
@@ -59,9 +41,4 @@ export const Colors = (props: ColorsType) => {
       <Color size={size} click={click} color={COLOR_WHITE} />
     </div>
   )
-}
-
-Colors.propTypes = {
-  size: PropTypes.number.isRequired,
-  click: PropTypes.func.isRequired,
 }

@@ -1,20 +1,27 @@
-// @flow
 /* Platform specific functions. */
 
-import type { ClockState } from "./appstate"
-
-const SETTINGS_KEY = "clockSettings"
+import { defaultState, mergeOldState, SETTINGS_KEY } from "./appstate"
 
 export const isNative = false
 
+export const bootState = () => {
+  const initialState = mergeOldState(defaultState(), getOldState())
+  initialState.date = new Date()
+  return initialState
+}
+
+export const bootClock = () => {}
+
+export const keepState = (state) => saveState(mergeOldState({}, state))
+
 // Save state in browser storage.
-export const saveState = (state: ClockState) => {
+const saveState = (state: ClockState) => {
   const settings = JSON.stringify(state)
   localStorage.setItem(SETTINGS_KEY, settings)
 }
 
 // Get state from browser storage.
-export const getOldState = () => {
+const getOldState = () => {
   try {
     const settings = localStorage.getItem(SETTINGS_KEY)
     if (settings) {
@@ -29,7 +36,5 @@ export const getViewPort = () => {
   const clock = document.getElementById("clock-face")
   if (clock) {
     return [clock.clientWidth, clock.clientHeight]
-  } else {
-    return [window.innerWidth, window.innerHeight]
   }
 }

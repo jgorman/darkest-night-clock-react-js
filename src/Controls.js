@@ -1,6 +1,4 @@
-// @flow
 import React from "react"
-import PropTypes from "prop-types"
 
 import plusCircle from "./images/plus-circle.svg"
 import minusCircle from "./images/minus-circle.svg"
@@ -8,14 +6,9 @@ import colors from "./images/colors.svg"
 import seconds from "./images/seconds.svg"
 import showDate from "./images/show-date.svg"
 
-type ControlsType = {
-  size: number,
-  clock: Object,
-}
-
-export const Controls = (props: ControlsType) => {
+export const Controls = (props) => {
   const size = props.size
-  const clock = props.clock
+  const actions = props.actions
 
   const control = {
     height: size + "px",
@@ -29,10 +22,10 @@ export const Controls = (props: ControlsType) => {
         style={control}
         alt="Dimmer"
         onContextMenu={(e) => e.preventDefault()}
-        onTouchStart={clock.dimmerPress}
-        onTouchEnd={clock.endPress}
-        onTouchCancel={clock.endPress}
-        onClick={clock.dimmerClick}
+        onTouchStart={actions.dimmerPress}
+        onTouchEnd={actions.endPress}
+        onTouchCancel={actions.endPress}
+        onClick={actions.dimmerClick}
       />
 
       <img
@@ -40,37 +33,32 @@ export const Controls = (props: ControlsType) => {
         style={control}
         alt="Brighter"
         onContextMenu={(e) => e.preventDefault()}
-        onTouchStart={clock.brighterPress}
-        onTouchEnd={clock.endPress}
-        onTouchCancel={clock.endPress}
-        onClick={clock.brighterClick}
+        onTouchStart={actions.brighterPress}
+        onTouchEnd={actions.endPress}
+        onTouchCancel={actions.endPress}
+        onClick={actions.brighterClick}
       />
 
       <img
-        onClick={clock.showColorClick}
+        onClick={actions.showColorClick}
         src={colors}
         style={control}
         alt="Select color"
       />
 
       <img
-        onClick={clock.showSecondsClick}
+        onClick={actions.showSecondsClick}
         src={seconds}
         style={control}
         alt="Show seconds"
       />
 
       <img
-        onClick={clock.showDateClick}
+        onClick={actions.showDateClick}
         src={showDate}
         style={control}
         alt="Show date"
       />
     </div>
   )
-}
-
-Controls.propTypes = {
-  size: PropTypes.number.isRequired,
-  clock: PropTypes.object.isRequired,
 }
